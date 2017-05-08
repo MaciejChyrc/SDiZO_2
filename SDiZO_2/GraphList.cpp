@@ -96,9 +96,6 @@ void GraphList::createRandomGraph(int v, int fillPercent)
 
 	srand(time(NULL));
 	int edgesToCreate = static_cast<double>(fillPercent) / 100 * (static_cast<double>(v) * (static_cast<double>(v) - 1)) / 2;
-	adjList = new ListElement*[v];
-	verticesNumber = v;
-	edgesNumber = edgesToCreate;
 
 	if (edgesToCreate < (v - 1))
 	{
@@ -106,6 +103,9 @@ void GraphList::createRandomGraph(int v, int fillPercent)
 		cout << "Nie uda sie przy takiej gestosci uzyskac grafu spojnego.\n";
 		return;
 	}
+	adjList = new ListElement*[v];
+	verticesNumber = v;
+	edgesNumber = edgesToCreate;
 
 	for (int i = 0; i < v; i++)
 	{
@@ -138,12 +138,13 @@ void GraphList::createRandomGraph(int v, int fillPercent)
 		v1 = rand() % v;
 		v2 = rand() % v;
 		w = rand() % 10 + 1;
-		edge = new Edge(w, i, v2);
+		edge = new Edge(w, v1, v2);
 		while (v1 == v2 || findEdge(*edge))
 		{
 			v1 = rand() % v;
 			v2 = rand() % v;
-		}
+			edge = new Edge(w, v1, v2); //bez tego moglo sie zapetlic bo jak raz krawedz juz istniala
+		}								//to sprawdzalo warunek petli dla starych wierzcholkow i zwracalo zawsze true
 		ptr = new ListElement;
 		ptr->weight = w;
 		ptr->destVertexId = v2;
@@ -154,7 +155,7 @@ void GraphList::createRandomGraph(int v, int fillPercent)
 		ptr->weight = w;
 		ptr->destVertexId = v1;
 		ptr->next = adjList[v2];
-		adjList[v2] = ptr;
+		adjList[v2] = ptr;	
 		listOfEdges.push_back(*edge);
 	}
 	delete edge;

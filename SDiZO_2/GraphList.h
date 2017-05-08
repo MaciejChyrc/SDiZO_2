@@ -1,7 +1,6 @@
 #pragma once
-#include <list>
 #include <vector>
-#include "VertexAndEdge.h"
+#include "MinorStructs.h"
 
 using namespace std;
 
@@ -17,8 +16,10 @@ public:
 	GraphList();
 	~GraphList();
 	int getVerticesNumber ();
-	ListElement** getAdjList ();
+	int getEdgesNumber ();
+	ListElement** getAdjList (); //na wypadek zmianu adjList na private
 	void createGraph (int v);
+	void createRandomGraph (int v, int fillPercent);
 	void copyListOfEdges (vector<Edge> par);
 	void print ();
 };

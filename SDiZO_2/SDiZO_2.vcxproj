@@ -120,7 +120,7 @@
     <ClInclude Include="Dijkstra.h" />
     <ClInclude Include="GraphList.h" />
     <ClInclude Include="GraphMatrix.h" />
-    <ClInclude Include="VertexAndEdge.h" />
+    <ClInclude Include="MinorStructs.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

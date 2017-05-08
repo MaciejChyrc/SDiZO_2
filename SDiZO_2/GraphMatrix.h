@@ -1,7 +1,6 @@
 #pragma once
-#include <list>
 #include <vector>
-#include "VertexAndEdge.h"
+#include "MinorStructs.h"
 
 using namespace std;
 
@@ -9,8 +8,8 @@ class GraphMatrix
 {
 private:
 	int verticesNumber, edgesNumber;
-	int **matrix;
 public:
+	int **matrix;
 	vector<Edge> listOfEdges;
 	GraphMatrix();
 	~GraphMatrix();

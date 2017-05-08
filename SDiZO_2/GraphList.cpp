@@ -1,5 +1,6 @@
 #include "GraphList.h"
 #include <iostream>
+#include <ctime>
 
 
 GraphList::GraphList()
@@ -12,7 +13,18 @@ GraphList::GraphList()
 
 GraphList::~GraphList()
 {
-
+	ListElement* dltPtr;	//pomocniczy wskaznik do usuwania elementow list
+	for (int i = 0; i < verticesNumber; i++)
+	{
+		ptr = adjList[i];
+		while (ptr != nullptr)
+		{
+			dltPtr = ptr;
+			ptr = ptr->next;
+			delete dltPtr;
+		}
+		delete[] adjList;
+	}
 }
 
 int GraphList::getVerticesNumber()
@@ -20,7 +32,12 @@ int GraphList::getVerticesNumber()
 	return verticesNumber;
 }
 
-ListElement ** GraphList::getAdjList()
+int GraphList::getEdgesNumber()
+{
+	return edgesNumber;
+}
+
+ListElement** GraphList::getAdjList()
 {
 	return adjList;
 }
@@ -66,6 +83,23 @@ void GraphList::createGraph(int v)
 		temp->destVertexId = tempListOfEdges.front().fromVertexId;
 		adjList[tempListOfEdges.front().destVertexId].push_back(temp);
 	}*/
+}
+
+void GraphList::createRandomGraph(int v, int fillPercent)
+{
+	if (fillPercent > 99 || fillPercent < 25)
+	{
+		cout << "Nieprawidlowy wspolczynnik gestosci grafu.\n";
+		return;
+	}
+	srand(time(NULL));
+	int edgesToCreate = static_cast<double>(fillPercent) / 100 * (static_cast<double>(v) * (static_cast<double>(v) - 1)) / 2;
+	if (edgesToCreate < (v - 1))
+	{
+		cout << "Nieprawidlowy wspolczynnik gestosci grafu.\n";
+		cout << "Nie uda sie przy takiej gestosci uzyskac grafu spojnego.\n";
+		return;
+	}
 }
 //dodajemy do klasy liste krawedzi wczytana poza klasa (np. z pliku)
 void GraphList::copyListOfEdges(vector<Edge> par)

@@ -1,7 +1,4 @@
 #pragma once
-#include <list>
-
-using namespace std;
 
 struct Edge
 {
@@ -18,14 +15,6 @@ struct Edge
 		this->fromVertexId = fromVertexId;
 		this->destVertexId = destVertexId;
 	}
-};
-
-struct Vertex
-{
-	int id;
-	list<Edge> adjList;
-
-	Vertex (int id) : id(id){}
 };
 
 struct ListElement

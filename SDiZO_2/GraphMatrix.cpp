@@ -57,10 +57,22 @@ void GraphMatrix::createGraph(int v)
 
 void GraphMatrix::createRandomGraph(int v, int fillPercent)
 {
+	if (fillPercent > 99 || fillPercent < 25)
+	{
+		cout << "Nieprawidlowy wspolczynnik gestosci grafu.\n";
+		return;
+	}
 	srand(time(NULL));
 	int edgesToCreate = static_cast<double>(fillPercent) / 100 * (static_cast<double>(v) * (static_cast<double>(v) - 1)) / 2;
+	if (edgesToCreate < (v - 1))
+	{
+		cout << "Nieprawidlowy wspolczynnik gestosci grafu.\n";
+		cout << "Nie uda sie przy takiej gestosci uzyskac grafu spojnego.\n";
+		return;
+	}
 	matrix = new int*[v];
 	verticesNumber = v;
+	edgesNumber = edgesToCreate;
 
 	for (int i = 0; i < v; i++)
 	{

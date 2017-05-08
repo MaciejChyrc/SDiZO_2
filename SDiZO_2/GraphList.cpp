@@ -89,7 +89,7 @@ void GraphList::createRandomGraph(int v, int fillPercent)
 {
 	if (fillPercent > 99 || fillPercent < 25)
 	{
-		cout << "Nieprawidlowy wspolczynnik gestosci grafu.\n";
+		cout << "Nieakceptowany wspolczynnik gestosci grafu. Podaj wartosc od 25 do 99.\n";
 		return;
 	}
 	srand(time(NULL));
@@ -100,11 +100,72 @@ void GraphList::createRandomGraph(int v, int fillPercent)
 		cout << "Nie uda sie przy takiej gestosci uzyskac grafu spojnego.\n";
 		return;
 	}
+	
+	for (int i = 0; i < v; i++)
+	{
+		adjList[i] = nullptr;
+	}
+	int v1, v2, w;
+	Edge* edge = nullptr;
+	for (int i = 0; i < v - 1; i++, edgesToCreate--)
+	{
+		v2 = i + 1;
+		w = rand() % 10 + 1;
+		edge = new Edge(w, i, v2);
+		ptr = new ListElement;
+		ptr->weight = w;
+		ptr->destVertexId = v2;
+		ptr->next = adjList[i];
+		adjList[i] = ptr;	
+		//krawedz odwrotna do dodanej (tworzymy w ten sposob "niby skierowany" graf)
+		ptr = new ListElement;
+		ptr->weight = w;
+		ptr->destVertexId = i;
+		ptr->next = adjList[v2];
+		adjList[v2] = ptr;
+		listOfEdges.push_back(*edge);
+	}
+	for (int i = 0; i < edgesToCreate; i++)
+	{
+		v1 = rand() % v;
+		v2 = rand() % v;
+		w = rand() % 10 + 1;
+		edge = new Edge(w, i, v2);
+		while (v1 == v2 || findEdge(*edge))
+		{
+			v1 = rand() % v;
+			v2 = rand() % v;
+		}
+		ptr = new ListElement;
+		ptr->weight = w;
+		ptr->destVertexId = v2;
+		ptr->next = adjList[i];
+		adjList[i] = ptr;
+		
+		ptr = new ListElement;
+		ptr->weight = w;
+		ptr->destVertexId = i;
+		ptr->next = adjList[v2];
+		adjList[v2] = ptr;
+		listOfEdges.push_back(*edge);
+	}
 }
 //dodajemy do klasy liste krawedzi wczytana poza klasa (np. z pliku)
 void GraphList::copyListOfEdges(vector<Edge> par)
 {
 	listOfEdges = par;
+}
+
+bool GraphList::findEdge(Edge e)
+{
+	for (Edge edge : listOfEdges)
+	{
+		if (e.weight == edge.weight && e.destVertexId == edge.destVertexId && e.fromVertexId == edge.fromVertexId)
+			return true;
+		else if (e.weight == edge.weight && e.destVertexId == edge.fromVertexId && e.fromVertexId == edge.destVertexId)
+			return true;
+	}
+	return false;
 }
 
 void GraphList::print()

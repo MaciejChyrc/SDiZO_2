@@ -21,5 +21,6 @@ public:
 	void createGraph (int v);
 	void createRandomGraph (int v, int fillPercent);
 	void copyListOfEdges (vector<Edge> par);
+	bool findEdge (Edge e);
 	void print ();
 };

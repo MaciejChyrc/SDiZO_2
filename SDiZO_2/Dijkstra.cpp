@@ -63,15 +63,23 @@ void Dijkstra::dijkstraMatrix(int startV, GraphMatrix *graphMatrix)
 	}
 
 	cout << "Algorytm Dijkstry macierzowo:\n";
-
+	cout << "Startowy wierzcholek: " << startV << "\n";
 	for (i = 0; i < verticesNumber; i++)
-	{
-		cout << i << ": ";
+	{		
+		cout << "End Dist Path\n";
+		if (i >= 10 && travelCosts[i] >= 10)
+			cout << i << " | " << travelCosts[i] << " | ";
+		else if (i >= 10 && travelCosts[i] < 10)
+			cout << i << " | " << travelCosts[i] << "  | ";
+		else if (i < 10 && travelCosts[i] >= 10)
+			cout << i << "  | " << travelCosts[i] << " | ";
+		else if (i < 10 && travelCosts[i] < 10)
+			cout << i << "  | " << travelCosts[i] << "  | ";
 		for (j = i; j > -1; j = predecessors[j])
 			stack[stackPos++] = j;
 		while (stackPos != 0)
 			cout << stack[--stackPos] << " ";
-		cout << "Koszt dojscia: " << travelCosts[i] << "\n";
+		cout << "\n";
 	}
 
 	delete[] travelCosts, predecessors, qs, stack;
@@ -120,8 +128,25 @@ void Dijkstra::dijkstraList(int startV, GraphList *graphList)
 	}
 
 	cout << "Algorytm Dijkstry listowo:\n";
-
+	cout << "Startowy wierzcholek: " << startV << "\n";
 	for (i = 0; i < verticesNumber; i++)
+	{
+		cout << "End Dist Path\n";
+		if (i >= 10 && travelCosts[i] >= 10)
+			cout << i << " | " << travelCosts[i] << " | ";
+		else if (i >= 10 && travelCosts[i] < 10)
+			cout << i << " | " << travelCosts[i] << "  | ";
+		else if (i < 10 && travelCosts[i] >= 10)
+			cout << i << "  | " << travelCosts[i] << " | ";
+		else if (i < 10 && travelCosts[i] < 10)
+			cout << i << "  | " << travelCosts[i] << "  | ";
+		for (j = i; j > -1; j = predecessors[j])
+			stack[stackPos++] = j;
+		while (stackPos != 0)
+			cout << stack[--stackPos] << " ";
+		cout << "\n";
+	}
+	/*for (i = 0; i < verticesNumber; i++)
 	{
 		cout << i << ": ";
 		for (j = i; j > -1; j = predecessors[j])
@@ -129,7 +154,7 @@ void Dijkstra::dijkstraList(int startV, GraphList *graphList)
 		while (stackPos != 0)
 			cout << stack[--stackPos] << " ";
 		cout << "Koszt dojscia: " << travelCosts[i] << "\n";
-	}
+	}*/
 
 	delete[] travelCosts, predecessors, qs, stack;
 	delete graphPtr, graphL;

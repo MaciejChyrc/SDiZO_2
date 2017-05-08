@@ -11,7 +11,7 @@ using namespace std;
 
 int main ()
 {
-	vector<Edge> edges;
+	/*vector<Edge> edges;
 	Edge edge;
 	edge.weight = 3; edge.fromVertexId = 0; edge.destVertexId = 1;
 	edges.push_back(edge);
@@ -31,12 +31,20 @@ int main ()
 	}
 	GraphList *graphL = new GraphList();
 	graphL->copyListOfEdges(edges);
-	graphL->createGraph(5);
+	graphL->createGraph(5);*/
+	GraphList *graphL = new GraphList();
+	graphL->createRandomGraph(10, 90);
+	cout << "Listowo:\n";
+	for (int i = 0; i < graphL->listOfEdges.size(); i++)
+	{
+		cout << "Krawedz " << i << ": " << graphL->listOfEdges[i].weight << " " << graphL->listOfEdges[i].fromVertexId << " " << graphL->listOfEdges[i].destVertexId << "\n";
+	}
 	graphL->print();
 	GraphMatrix *graphM = new GraphMatrix();
 	//graphM.copyListOfEdges(edges);
 	//graphM.createGraph(3);
 	graphM->createRandomGraph(10, 25);
+	cout << "Macierzowo:\n";
 	for (int i = 0; i < graphM->listOfEdges.size(); i++)
 	{
 		cout << "Krawedz " << i << ": " << graphM->listOfEdges[i].weight << " " << graphM->listOfEdges[i].fromVertexId << " " << graphM->listOfEdges[i].destVertexId << "\n";
@@ -45,5 +53,6 @@ int main ()
 	Dijkstra* dijkstra = new Dijkstra ();
 	dijkstra->dijkstraList(1, graphL);
 	dijkstra->dijkstraMatrix(1, graphM);
+	delete graphL, graphM, dijkstra;
 	system("PAUSE");
 }

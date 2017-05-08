@@ -23,8 +23,9 @@ GraphList::~GraphList()
 			ptr = ptr->next;
 			delete dltPtr;
 		}
-		delete[] adjList;
 	}
+	delete[] adjList;
+	delete ptr;
 }
 
 int GraphList::getVerticesNumber()
@@ -92,21 +93,28 @@ void GraphList::createRandomGraph(int v, int fillPercent)
 		cout << "Nieakceptowany wspolczynnik gestosci grafu. Podaj wartosc od 25 do 99.\n";
 		return;
 	}
+
 	srand(time(NULL));
 	int edgesToCreate = static_cast<double>(fillPercent) / 100 * (static_cast<double>(v) * (static_cast<double>(v) - 1)) / 2;
+	adjList = new ListElement*[v];
+	verticesNumber = v;
+	edgesNumber = edgesToCreate;
+
 	if (edgesToCreate < (v - 1))
 	{
 		cout << "Nieprawidlowy wspolczynnik gestosci grafu.\n";
 		cout << "Nie uda sie przy takiej gestosci uzyskac grafu spojnego.\n";
 		return;
 	}
-	
+
 	for (int i = 0; i < v; i++)
 	{
 		adjList[i] = nullptr;
 	}
+
 	int v1, v2, w;
 	Edge* edge = nullptr;
+
 	for (int i = 0; i < v - 1; i++, edgesToCreate--)
 	{
 		v2 = i + 1;
@@ -139,16 +147,17 @@ void GraphList::createRandomGraph(int v, int fillPercent)
 		ptr = new ListElement;
 		ptr->weight = w;
 		ptr->destVertexId = v2;
-		ptr->next = adjList[i];
-		adjList[i] = ptr;
+		ptr->next = adjList[v1];
+		adjList[v1] = ptr;
 		
 		ptr = new ListElement;
 		ptr->weight = w;
-		ptr->destVertexId = i;
+		ptr->destVertexId = v1;
 		ptr->next = adjList[v2];
 		adjList[v2] = ptr;
 		listOfEdges.push_back(*edge);
 	}
+	delete edge;
 }
 //dodajemy do klasy liste krawedzi wczytana poza klasa (np. z pliku)
 void GraphList::copyListOfEdges(vector<Edge> par)

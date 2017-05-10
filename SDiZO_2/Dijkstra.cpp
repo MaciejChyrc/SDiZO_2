@@ -18,12 +18,11 @@ Dijkstra::~Dijkstra()
 {
 	delete graphL, graphM;
 }
-//do przerobienia na macierzowa reprezentacje
+
 void Dijkstra::dijkstraMatrix(int startV, GraphMatrix *graphMatrix)
 {
 	graphM = graphMatrix;
 	int** graph = graphMatrix->matrix;
-	//ListElement* graphPtr = new ListElement;
 	int verticesNumber = graphM->getVerticesNumber();
 	bool* qs = new bool[verticesNumber];
 	int* travelCosts = new int[verticesNumber];
@@ -50,7 +49,7 @@ void Dijkstra::dijkstraMatrix(int startV, GraphMatrix *graphMatrix)
 
 		qs[k] = true;
 		
-		//!!!PRZEROBIC TUTAJ koszty sciezek sie nie zgadzaja --- dziala, posraly mi sie iteratory 'i' i 'k'
+		//koszty sciezek sie nie zgadzaja --- dziala, posraly mi sie iteratory 'i' i 'k'
 		for (int l = 0; l < verticesNumber; l++)
 		{
 			while (graph[k][l] == INT_MAX) l++;
@@ -132,29 +131,50 @@ void Dijkstra::dijkstraList(int startV, GraphList *graphList)
 	for (i = 0; i < verticesNumber; i++)
 	{
 		cout << "End Dist Path\n";
-		if (i >= 10 && travelCosts[i] >= 10)
+		if (travelCosts[i] == INT_MAX)
+			cout << i << " | " << "Brak polaczenia do " << i << " wierzcholka.\n";
+		else if (i >= 10 && travelCosts[i] >= 10 && travelCosts[i] < INT_MAX)
+		{
 			cout << i << " | " << travelCosts[i] << " | ";
+			for (j = i; j > -1; j = predecessors[j])
+				stack[stackPos++] = j;
+			while (stackPos != 0)
+				cout << stack[--stackPos] << " ";
+			cout << "\n";
+		}
 		else if (i >= 10 && travelCosts[i] < 10)
+		{
 			cout << i << " | " << travelCosts[i] << "  | ";
+			for (j = i; j > -1; j = predecessors[j])
+				stack[stackPos++] = j;
+			while (stackPos != 0)
+				cout << stack[--stackPos] << " ";
+			cout << "\n";
+		}
 		else if (i < 10 && travelCosts[i] >= 10)
+		{
 			cout << i << "  | " << travelCosts[i] << " | ";
+			for (j = i; j > -1; j = predecessors[j])
+				stack[stackPos++] = j;
+			while (stackPos != 0)
+				cout << stack[--stackPos] << " ";
+			cout << "\n";
+		}
 		else if (i < 10 && travelCosts[i] < 10)
+		{
 			cout << i << "  | " << travelCosts[i] << "  | ";
-		for (j = i; j > -1; j = predecessors[j])
+			for (j = i; j > -1; j = predecessors[j])
+				stack[stackPos++] = j;
+			while (stackPos != 0)
+				cout << stack[--stackPos] << " ";
+			cout << "\n";
+		}
+		/*for (j = i; j > -1; j = predecessors[j])
 			stack[stackPos++] = j;
 		while (stackPos != 0)
 			cout << stack[--stackPos] << " ";
-		cout << "\n";
+		cout << "\n";*/
 	}
-	/*for (i = 0; i < verticesNumber; i++)
-	{
-		cout << i << ": ";
-		for (j = i; j > -1; j = predecessors[j])
-			stack[stackPos++] = j;
-		while (stackPos != 0)
-			cout << stack[--stackPos] << " ";
-		cout << "Koszt dojscia: " << travelCosts[i] << "\n";
-	}*/
 
 	delete[] travelCosts, predecessors, qs, stack;
 	delete graphPtr, graphL;

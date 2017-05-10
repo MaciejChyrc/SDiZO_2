@@ -7,7 +7,7 @@ using namespace std;
 class GraphList
 {
 private:
-	int verticesNumber, edgesNumber;
+	int verticesNumber, edgesNumber, startVertex;
 	ListElement* ptr;
 	//vector<ListElement*> *adjList;
 public:
@@ -17,8 +17,11 @@ public:
 	~GraphList();
 	int getVerticesNumber ();
 	int getEdgesNumber ();
+	int getStartVertex ();
+	void setStartVertex (int startV);
 	ListElement** getAdjList (); //na wypadek zmianu adjList na private
-	void createGraph (int v);
+	void createGraphFromListOfEdges (int v);
+	void createDirectedGraphFromListOfEdges (int v);
 	void createRandomGraph (int v, int fillPercent);
 	void copyListOfEdges (vector<Edge> par);
 	bool findEdge (Edge e);

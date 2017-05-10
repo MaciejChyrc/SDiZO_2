@@ -1,6 +1,7 @@
 #include "GraphMatrix.h"
 #include <iostream>
 #include <ctime>
+#include <iomanip>
 
 
 GraphMatrix::GraphMatrix()
@@ -24,13 +25,51 @@ int GraphMatrix::getVerticesNumber()
 	return verticesNumber;
 }
 
+int GraphMatrix::getEdgesNumber()
+{
+	return edgesNumber;
+}
+
+int GraphMatrix::getStartVertex()
+{
+	return startVertex;
+}
+
+void GraphMatrix::setStartVertex(int startV)
+{
+	if (startV < verticesNumber && startV >= 0)
+		startVertex = startV;
+	else
+		cout << "Podany numer wierzcholka jest za duzy/mniejszy od 0.\nPodaj wartosc od 0 do wielkosci zbioru wierzcholkow - 1.\n";
+}
+
 int ** GraphMatrix::getMatrix()
 {
 	return matrix;
 }
-
-void GraphMatrix::createGraph(int v)
+///<note>Budowanie grafu nieskierowanego o zadanej ilosci wierzcholkow z istniejacej listy krawedzi.
+///<note>Nalezy uprzednio wypelnic liste krawedziami i uzyc copyListOfEdges!!!
+void GraphMatrix::createGraphFromListOfEdges(int v)
 {
+	//jesli nieprawidlowa liczba krawedzi, to czyscimy liste krawedzi i wychodzimy z metody
+	if (listOfEdges.size() > (v * (v - 1)) / 2)
+	{
+		cout << "Zbyt duzo krawedzi w grafie.\n";
+		while (listOfEdges.size() > 0)
+		{
+			listOfEdges.pop_back();
+		}
+		return;
+	}
+	else if (listOfEdges.size() < v - 1)
+	{
+		cout << "Zbyt malo krawedzi aby otrzymac spojny graf.\n";
+		while (listOfEdges.size() > 0)
+		{
+			listOfEdges.pop_back();
+		}
+		return;
+	}
 	matrix = new int*[v];
 	verticesNumber = v;
 	edgesNumber = listOfEdges.size();
@@ -54,7 +93,55 @@ void GraphMatrix::createGraph(int v)
 		tempListOfEdges.pop_back();
 	}
 }
+///<note>Budowanie grafu skierowanego o zadanej ilosci wierzcholkow z istniejacej listy krawedzi.
+///<note>Nalezy uprzednio wypelnic liste krawedziami i uzyc copyListOfEdges!!!
+void GraphMatrix::createDirectedGraphFromListOfEdges(int v)
+{
+	//jesli nieprawidlowa liczba krawedzi, to czyscimy liste krawedzi i wychodzimy z metody
+	if (listOfEdges.size() > v * (v - 1))
+	{
+		cout << "Zbyt duzo krawedzi w grafie.\n";
+		while (listOfEdges.size() > 0)
+		{
+			listOfEdges.pop_back();
+		}
+		return;
+	}
+	else if (listOfEdges.size() < v - 1)
+	{
+		cout << "Zbyt malo krawedzi aby otrzymac spojny graf.\n";
+		while (listOfEdges.size() > 0)
+		{
+			listOfEdges.pop_back();
+		}
+		return;
+	}
+	matrix = new int*[v];
+	verticesNumber = v;
+	edgesNumber = listOfEdges.size();
+	vector<Edge> tempListOfEdges = listOfEdges;
 
+	for (int i = 0; i < v; i++)
+	{
+		matrix[i] = new int[v];
+	}
+	for (int i = 0; i < v; i++)
+	{
+		for (int j = 0; j < v; j++)
+		{
+			matrix[i][j] = INT_MAX;
+		}
+	}
+	while (!tempListOfEdges.empty())
+	{
+		matrix[tempListOfEdges.back().fromVertexId][tempListOfEdges.back().destVertexId] = tempListOfEdges.back().weight;
+		tempListOfEdges.pop_back();
+	}
+}
+///<note>Budowanie LOSOWEGO grafu nieskierowanego o zadanej ilosci wierzcholkow.
+///<note>Metoda sama tworzy krawedzie najpierw tworzac drzewo (dla pewnosci, ze graf bedzie spojny),
+///<note>a nastepnie dodajac brakujace krawedzie losowo do grafu.
+///<note>Wagi przyjmuja losowa wartosc od 1 do 10.
 void GraphMatrix::createRandomGraph(int v, int fillPercent)
 {
 	if (fillPercent > 99 || fillPercent < 25)
@@ -120,7 +207,7 @@ void GraphMatrix::createRandomGraph(int v, int fillPercent)
 	}
 	delete edge;
 }
-//dodajemy do klasy liste krawedzi wczytana poza klasa (np. z pliku)
+///<note>Dodajemy do klasy liste krawedzi wczytana poza klasa (np. z pliku).
 void GraphMatrix::copyListOfEdges(vector<Edge> par)
 {
 	listOfEdges = par;
@@ -128,14 +215,20 @@ void GraphMatrix::copyListOfEdges(vector<Edge> par)
 
 void GraphMatrix::print()
 {
-	cout << "Reprezentacja macierzowa:\n";
+	cout << "Reprezentacja macierzowa:\n   ";
 	for (int i = 0; i < verticesNumber; i++)
 	{
+		cout << setw(3) << i;
+	}
+	cout << "\n";
+	for (int i = 0; i < verticesNumber; i++)
+	{
+		cout << setw(3) << i;
 		for (int j = 0; j < verticesNumber; j++)
 		{
-			if (matrix[i][j] == INT_MAX) cout << "x  ";
-			else if (matrix[i][j] < 10) cout << matrix[i][j] << "  ";
-			else cout << matrix[i][j] << " ";
+			if (matrix[i][j] == INT_MAX) cout << setw(3) << "x";
+			else if (matrix[i][j] < 10) cout << setw(3) << matrix[i][j];
+			else cout << setw(3) << matrix[i][j];
 		}
 		cout << "\n";
 	}

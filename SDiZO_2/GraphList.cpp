@@ -38,13 +38,46 @@ int GraphList::getEdgesNumber()
 	return edgesNumber;
 }
 
+int GraphList::getStartVertex()
+{
+	return startVertex;
+}
+
+void GraphList::setStartVertex(int startV)
+{
+	if (startV < verticesNumber && startV >= 0)
+		startVertex = startV;
+	else
+		cout << "Podany numer wierzcholka jest za duzy/mniejszy od 0.\nPodaj wartosc od 0 do wielkosci zbioru wierzcholkow - 1.\n";
+}
+
 ListElement** GraphList::getAdjList()
 {
 	return adjList;
 }
-
-void GraphList::createGraph(int v)
+///<note>Budowanie grafu nieskierowanego o zadanej ilosci wierzcholkow z istniejacej listy krawedzi.
+///<note>Nalezy uprzednio wypelnic liste krawedziami i uzyc copyListOfEdges!!!
+void GraphList::createGraphFromListOfEdges(int v)
 {
+	//jesli nieprawidlowa liczba krawedzi, to czyscimy liste krawedzi i wychodzimy z metody
+	if (listOfEdges.size() > (v * (v - 1)) / 2)
+	{
+		cout << "Zbyt duzo krawedzi w grafie.\n";
+		while (listOfEdges.size() > 0)
+		{
+			listOfEdges.pop_back();
+		}
+		return;
+	}
+	else if (listOfEdges.size() < v - 1)
+	{
+		cout << "Zbyt malo krawedzi aby otrzymac spojny graf.\n";
+		while (listOfEdges.size() > 0)
+		{
+			listOfEdges.pop_back();
+		}
+		return;
+	}
 	adjList = new ListElement*[v];
 	edgesNumber = listOfEdges.size();
 	verticesNumber = v;
@@ -85,7 +118,55 @@ void GraphList::createGraph(int v)
 		adjList[tempListOfEdges.front().destVertexId].push_back(temp);
 	}*/
 }
+///<note>Budowanie grafu skierowanego o zadanej ilosci wierzcholkow z istniejacej listy krawedzi.
+///<note>Nalezy uprzednio wypelnic liste krawedziami i uzyc copyListOfEdges!!!
+void GraphList::createDirectedGraphFromListOfEdges(int v)
+{
+	//jesli nieprawidlowa liczba krawedzi, to czyscimy liste krawedzi i wychodzimy z metody
+	if (listOfEdges.size() > v * (v - 1))
+	{
+		cout << "Zbyt duzo krawedzi w grafie.\n";
+		while (listOfEdges.size() > 0)
+		{
+			listOfEdges.pop_back();
+		}
+		return;
+	}
+	else if (listOfEdges.size() < v - 1)
+	{
+		cout << "Zbyt malo krawedzi aby otrzymac spojny graf.\n";
+		while (listOfEdges.size() > 0)
+		{
+			listOfEdges.pop_back();
+		}
+		return;
+	}
+	adjList = new ListElement*[v];
+	edgesNumber = listOfEdges.size();
+	verticesNumber = v;
+	vector<Edge> tempListOfEdges = listOfEdges;
+	int v1, v2, w;
 
+	for (int i = 0; i < v; i++)
+	{
+		adjList[i] = nullptr;
+	}
+	for (int i = 0; i < tempListOfEdges.size(); i++)
+	{
+		v1 = tempListOfEdges[i].fromVertexId;
+		v2 = tempListOfEdges[i].destVertexId;
+		w = tempListOfEdges[i].weight;
+		ptr = new ListElement;
+		ptr->weight = w;
+		ptr->destVertexId = v2;
+		ptr->next = adjList[v1];
+		adjList[v1] = ptr;
+	}
+}
+///<note>Budowanie LOSOWEGO grafu nieskierowanego o zadanej ilosci wierzcholkow.
+///<note>Metoda sama tworzy krawedzie najpierw tworzac drzewo (dla pewnosci, ze graf bedzie spojny),
+///<note>a nastepnie dodajac brakujace krawedzie losowo do grafu.
+///<note>Wagi przyjmuja losowa wartosc od 1 do 10.
 void GraphList::createRandomGraph(int v, int fillPercent)
 {
 	if (fillPercent > 99 || fillPercent < 25)
@@ -160,7 +241,7 @@ void GraphList::createRandomGraph(int v, int fillPercent)
 	}
 	delete edge;
 }
-//dodajemy do klasy liste krawedzi wczytana poza klasa (np. z pliku)
+///<note>Dodajemy do klasy liste krawedzi wczytana poza klasa (np. z pliku).
 void GraphList::copyListOfEdges(vector<Edge> par)
 {
 	listOfEdges = par;
@@ -181,13 +262,14 @@ bool GraphList::findEdge(Edge e)
 void GraphList::print()
 {
 	cout << "Reprezentacja listowa:\n";
+	cout << "V: (waga|cel)\n";
 	for (int i = 0; i < verticesNumber; i++)
 	{
 		cout << i << ": ";
 		ptr = adjList[i];
 		while (ptr != nullptr)
 		{
-			cout << ptr->weight << ptr->destVertexId << " ";
+			cout << "(" << ptr->weight << "|" << ptr->destVertexId << ") ";
 			ptr = ptr->next;
 		}
 		cout << "\n";

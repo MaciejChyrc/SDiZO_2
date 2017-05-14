@@ -2,11 +2,12 @@
 #include <fstream>
 #include <stdlib.h>
 #include <vector>
-#include <list>
+#include <queue>
 #include "MinorStructs.h"
 #include "GraphList.h"
 #include "GraphMatrix.h"
-#include "Dijkstra.h";
+#include "Dijkstra.h"
+#include "Prim.h"
 #include <string>
 
 using namespace std;
@@ -15,29 +16,8 @@ void readTextFile (string filepath, vector<Edge> &parEdges, GraphList *graphLU, 
 
 int main ()
 {
-	/*vector<Edge> edges;
-	Edge edge;
-	edge.weight = 3; edge.fromVertexId = 0; edge.destVertexId = 1;
-	edges.push_back(edge);
-	edge.weight = 1; edge.fromVertexId = 1; edge.destVertexId = 2;
-	edges.push_back(edge);
-	edge.weight = 2; edge.fromVertexId = 2; edge.destVertexId = 0;
-	edges.push_back(edge);
-	edge.weight = 6; edge.fromVertexId = 3; edge.destVertexId = 1;
-	edges.push_back(edge);
-	edge.weight = 5; edge.fromVertexId = 2; edge.destVertexId = 3;
-	edges.push_back(edge);
-	edge.weight = 8; edge.fromVertexId = 0; edge.destVertexId = 4;
-	edges.push_back(edge);
-	for (int i = 0; i < edges.size(); i++)
-	{
-		cout << edges[i].weight << edges[i].fromVertexId << edges[i].destVertexId << "\n";
-	}
 	GraphList *graphL = new GraphList();
-	graphL->copyListOfEdges(edges);
-	graphL->createGraphFromListOfEdges(5);*/
-	GraphList *graphL = new GraphList();
-	graphL->createRandomGraph(10, 90);
+	graphL->createRandomGraph(100, 50);
 	cout << "Listowo:\n";
 	for (int i = 0; i < graphL->listOfEdges.size(); i++)
 	{
@@ -47,7 +27,7 @@ int main ()
 	GraphMatrix *graphM = new GraphMatrix();
 	//graphM.copyListOfEdges(edges);
 	//graphM.createGraphFromListOfEdges(3);
-	graphM->createRandomGraph(15, 25);
+	graphM->createRandomGraph(100, 50);
 	cout << "Macierzowo:\n";
 	for (int i = 0; i < graphM->listOfEdges.size(); i++)
 	{
@@ -57,7 +37,10 @@ int main ()
 	Dijkstra* dijkstra = new Dijkstra ();
 	dijkstra->dijkstraList(2, graphL);
 	dijkstra->dijkstraMatrix(3, graphM);
-	delete graphL, graphM, dijkstra;
+	Prim* prim = new Prim ();
+	prim->primList(4, graphL);
+	prim->primMatrix(50, graphM);
+	delete graphL, graphM, dijkstra, prim;
 	system("PAUSE");
 }
 

@@ -1,29 +1,22 @@
 #include "Dijkstra.h"
 #include <iostream>
+#include "windows.h"
 
 
 Dijkstra::Dijkstra()
 {
-	graphL = nullptr;
-	graphM = nullptr;
-}
 
-Dijkstra::Dijkstra(GraphList *gl, GraphMatrix *gm)
-{
-	graphL = gl;
-	graphM = gm;
 }
 
 Dijkstra::~Dijkstra()
 {
-	delete graphL, graphM;
+	
 }
 
 void Dijkstra::dijkstraMatrix(int startV, GraphMatrix *graphMatrix)
 {
-	graphM = graphMatrix;
 	int** graph = graphMatrix->matrix;
-	int verticesNumber = graphM->getVerticesNumber();
+	int verticesNumber = graphMatrix->getVerticesNumber();
 	bool* qs = new bool[verticesNumber];
 	int* travelCosts = new int[verticesNumber];
 	int* predecessors = new int[verticesNumber];
@@ -41,7 +34,7 @@ void Dijkstra::dijkstraMatrix(int startV, GraphMatrix *graphMatrix)
 
 	for (i = 0; i < verticesNumber; i++)
 	{
-		for (j = 0; qs[j]; j++);
+		for (j = 0; qs[j]; j++); //szukamy elementu jeszcze nie dodanego do zbioru S
 		for (k = j++; j < verticesNumber; j++)
 		{
 			if (!qs[j] && (travelCosts[j] < travelCosts[k])) k = j;
@@ -65,6 +58,7 @@ void Dijkstra::dijkstraMatrix(int startV, GraphMatrix *graphMatrix)
 	cout << "Startowy wierzcholek: " << startV << "\n";
 	for (i = 0; i < verticesNumber; i++)
 	{		
+		Sleep(50);
 		cout << "End Dist Path\n";
 		if (i >= 10 && travelCosts[i] >= 10)
 			cout << i << " | " << travelCosts[i] << " | ";
@@ -82,15 +76,13 @@ void Dijkstra::dijkstraMatrix(int startV, GraphMatrix *graphMatrix)
 	}
 
 	delete[] travelCosts, predecessors, qs, stack;
-	delete graphM;
 }
 
 void Dijkstra::dijkstraList(int startV, GraphList *graphList)
 {
-	graphL = graphList;
-	ListElement** graph = graphL->adjList;
+	ListElement** graph = graphList->adjList;
 	ListElement* graphPtr = new ListElement;
-	int verticesNumber = graphL->getVerticesNumber();
+	int verticesNumber = graphList->getVerticesNumber();
 	bool* qs = new bool[verticesNumber];
 	int* travelCosts = new int[verticesNumber];
 	int* predecessors = new int[verticesNumber];
@@ -108,7 +100,7 @@ void Dijkstra::dijkstraList(int startV, GraphList *graphList)
 	
 	for (i = 0; i < verticesNumber; i++)
 	{
-		for (j = 0; qs[j]; j++);
+		for (j = 0; qs[j]; j++); //szukamy elementu jeszcze nie dodanego do zbioru S
 		for (k = j++; j < verticesNumber; j++)
 		{
 			if (!qs[j] && (travelCosts[j] < travelCosts[k])) k = j;
@@ -130,6 +122,7 @@ void Dijkstra::dijkstraList(int startV, GraphList *graphList)
 	cout << "Startowy wierzcholek: " << startV << "\n";
 	for (i = 0; i < verticesNumber; i++)
 	{
+		Sleep(50);
 		cout << "End Dist Path\n";
 		if (travelCosts[i] == INT_MAX)
 			cout << i << " | " << "Brak polaczenia do " << i << " wierzcholka.\n";
@@ -177,5 +170,5 @@ void Dijkstra::dijkstraList(int startV, GraphList *graphList)
 	}
 
 	delete[] travelCosts, predecessors, qs, stack;
-	delete graphPtr, graphL;
+	delete graphPtr;
 }

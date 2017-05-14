@@ -114,6 +114,9 @@
     <ClCompile Include="Dijkstra.cpp" />
     <ClCompile Include="GraphList.cpp" />
     <ClCompile Include="GraphMatrix.cpp" />
+    <ClCompile Include="MinSpanningTree.cpp" />
+    <ClCompile Include="MyQueue.cpp" />
+    <ClCompile Include="Prim.cpp" />
     <ClCompile Include="SDiZO_2.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -121,6 +124,9 @@
     <ClInclude Include="GraphList.h" />
     <ClInclude Include="GraphMatrix.h" />
     <ClInclude Include="MinorStructs.h" />
+    <ClInclude Include="MinSpanningTree.h" />
+    <ClInclude Include="MyQueue.h" />
+    <ClInclude Include="Prim.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

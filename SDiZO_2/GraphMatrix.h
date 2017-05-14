@@ -11,8 +11,8 @@ private:
 public:
 	int **matrix;
 	vector<Edge> listOfEdges;
-	GraphMatrix();
-	~GraphMatrix();
+	GraphMatrix ();
+	~GraphMatrix ();
 	int getVerticesNumber ();
 	int getEdgesNumber ();
 	int getStartVertex ();

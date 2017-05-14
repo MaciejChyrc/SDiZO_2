@@ -25,7 +25,6 @@ GraphList::~GraphList()
 		}
 	}
 	delete[] adjList;
-	delete ptr;
 }
 
 int GraphList::getVerticesNumber()
@@ -54,6 +53,10 @@ void GraphList::setStartVertex(int startV)
 ListElement** GraphList::getAdjList()
 {
 	return adjList;
+}
+ListElement * GraphList::getAdjListOnIndex(int i)
+{
+	return adjList[i];
 }
 ///<note>Budowanie grafu nieskierowanego o zadanej ilosci wierzcholkow z istniejacej listy krawedzi.
 ///<note>Nalezy uprzednio wypelnic liste krawedziami i uzyc copyListOfEdges!!!

@@ -109,7 +109,6 @@ void MinSpanningTree::printAdjacencyList()
 		while (ptr != nullptr)
 		{
 			cout << "(" << ptr->weight << "|" << ptr->destVertexId << ") ";
-			//if (ptr == ptr->next) break;
 			ptr = ptr->next;
 			Sleep(50);
 		}
@@ -123,8 +122,8 @@ void MinSpanningTree::printListOfEdges()
 	cout << "Krawedz | Waga\n";
 	for (int i = 0; i < listOfEdges.size(); i++)
 	{
-		cout << setw(8) << "(" << listOfEdges[i].fromVertexId << "|" << listOfEdges[i].destVertexId << ")";
-		cout << " " << listOfEdges[i].weight << "\n";
+		cout << "(" << listOfEdges[i].fromVertexId << "|" << listOfEdges[i].destVertexId << ")";
+		cout << "  " << listOfEdges[i].weight << "\n";
 	}
 	cout << "\nWaga drzewa: " << weight << "\n";
 }

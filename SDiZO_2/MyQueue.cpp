@@ -192,13 +192,6 @@ void MyQueue::resize(int newSize)
 	}
 }
 
-/*void MyQueue::swap(int e1, int e2)
-{
-	Edge temp = heap[e1];
-	heap[e1] = heap[e2];
-	heap[e2] = temp;
-}*/
-
 void MyQueue::print()
 {
 	for (int i = 0; i < heapSize; i++)

@@ -181,9 +181,8 @@ void GraphMatrix::createRandomGraph(int v, int fillPercent)
 	//tworzymy najpierw drzewo aby byc pewnym ze graf jest spojny
 	for (int i = 0; i < v - 1; i++, edgesToCreate--)
 	{		
-		v2 = i + 1;/*rand() % v;*/
+		v2 = i + 1;
 		w = rand() % 10 + 1;
-		//while (v2 == i || matrix[i][v2] != INT_MAX) v2 = rand() % v;
 		matrix[i][v2] = w;
 		matrix[v2][i] = w;
 		edge = new Edge (w, i, v2);

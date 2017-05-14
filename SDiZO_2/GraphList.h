@@ -9,7 +9,6 @@ class GraphList
 private:
 	int verticesNumber, edgesNumber, startVertex;
 	ListElement* ptr;
-	//vector<ListElement*> *adjList;
 public:
 	ListElement** adjList;
 	vector<Edge> listOfEdges;
@@ -20,7 +19,6 @@ public:
 	int getStartVertex ();
 	void setStartVertex (int startV);
 	ListElement** getAdjList (); //na wypadek zmianu adjList na private
-	ListElement* getAdjListOnIndex (int i);
 	void createGraphFromListOfEdges (int v);
 	void createDirectedGraphFromListOfEdges (int v);
 	void createRandomGraph (int v, int fillPercent);

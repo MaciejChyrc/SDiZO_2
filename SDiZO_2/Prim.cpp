@@ -62,7 +62,8 @@ void Prim::primMatrix(int startV, GraphMatrix * graphMatrix)
 
 	mst.createTreeFromListOfEdges(verticesNumber);
 	cout << "Minimalne drzewo rozpinajace algorytmem Prima\nwykonane na grafie jako macierzy:\n";
-	mst.printAdjacencyList();
+	//mst.printAdjacencyList();
+	mst.printListOfEdges();
 
 	delete[] visited;
 }
@@ -112,7 +113,8 @@ void Prim::primList(int startV, GraphList * graphList)
 
 	mst.createTreeFromListOfEdges(verticesNumber);
 	cout << "Minimalne drzewo rozpinajace algorytmem Prima\nwykonane na grafie jako tablicy list:\n";
-	mst.printAdjacencyList();
+	//mst.printAdjacencyList();
+	mst.printListOfEdges();
 
 	delete[] visited;
 	delete graphPtr;

@@ -54,10 +54,6 @@ ListElement** GraphList::getAdjList()
 {
 	return adjList;
 }
-ListElement * GraphList::getAdjListOnIndex(int i)
-{
-	return adjList[i];
-}
 ///<note>Budowanie grafu nieskierowanego o zadanej ilosci wierzcholkow z istniejacej listy krawedzi.
 ///<note>Nalezy uprzednio wypelnic liste krawedziami i uzyc copyListOfEdges!!!
 void GraphList::createGraphFromListOfEdges(int v)
@@ -101,25 +97,13 @@ void GraphList::createGraphFromListOfEdges(int v)
 		ptr->destVertexId = v2;
 		ptr->next = adjList[v1];
 		adjList[v1] = ptr;
-		//krawedz odwrotna do dodanej (tworzymy w ten sposob "niby skierowany" graf)
+		//krawedz odwrotna do dodanej (tworzymy w ten sposob skierowany graf)
 		ptr = new ListElement;
 		ptr->weight = w;
 		ptr->destVertexId = v1;
 		ptr->next = adjList[v2];
 		adjList[v2] = ptr;
 	}
-	/*adjList = new vector<ListElement*>[v];
-	ListElement* temp;
-	list<Edge> tempListOfEdges = listOfEdges;
-	while (!tempListOfEdges.empty())
-	{
-		temp = new ListElement;
-		temp->weight = tempListOfEdges.front().weight;
-		temp->destVertexId = tempListOfEdges.front().destVertexId;
-		adjList[tempListOfEdges.front().fromVertexId].push_back(temp);
-		temp->destVertexId = tempListOfEdges.front().fromVertexId;
-		adjList[tempListOfEdges.front().destVertexId].push_back(temp);
-	}*/
 }
 ///<note>Budowanie grafu skierowanego o zadanej ilosci wierzcholkow z istniejacej listy krawedzi.
 ///<note>Nalezy uprzednio wypelnic liste krawedziami i uzyc copyListOfEdges!!!
@@ -209,7 +193,7 @@ void GraphList::createRandomGraph(int v, int fillPercent)
 		ptr->destVertexId = v2;
 		ptr->next = adjList[i];
 		adjList[i] = ptr;	
-		//krawedz odwrotna do dodanej (tworzymy w ten sposob "niby skierowany" graf)
+		//krawedz odwrotna do dodanej (tworzymy w ten sposob skierowany graf)
 		ptr = new ListElement;
 		ptr->weight = w;
 		ptr->destVertexId = i;

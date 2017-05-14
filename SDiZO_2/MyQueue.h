@@ -1,6 +1,7 @@
 #pragma once
 #include "MinorStructs.h"
-//kopiec z 1 projektu zaadaptowany do obslugiwania krawedzi grafow i okrojony z niepotrzebnych rzeczy
+//kopiec z 1 projektu zaadaptowany do sluzenia jako kolejka priorytetowa i
+//obslugiwania krawedzi grafow i okrojony z niepotrzebnych rzeczy
 class MyQueue
 {
 private:
@@ -17,6 +18,5 @@ public:
 	void push (Edge edge);
 	void pop ();
 	void resize (int newSize);
-	//void swap (int e1, int e2);
 	void print ();
 };

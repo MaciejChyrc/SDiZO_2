@@ -25,8 +25,6 @@ int main ()
 	}
 	graphL->print();
 	GraphMatrix *graphM = new GraphMatrix();
-	//graphM.copyListOfEdges(edges);
-	//graphM.createGraphFromListOfEdges(3);
 	graphM->createRandomGraph(100, 50);
 	cout << "Macierzowo:\n";
 	for (int i = 0; i < graphM->listOfEdges.size(); i++)

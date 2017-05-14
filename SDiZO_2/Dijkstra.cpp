@@ -42,7 +42,6 @@ void Dijkstra::dijkstraMatrix(int startV, GraphMatrix *graphMatrix)
 
 		qs[k] = true;
 		
-		//koszty sciezek sie nie zgadzaja --- dziala, posraly mi sie iteratory 'i' i 'k'
 		for (int l = 0; l < verticesNumber; l++)
 		{
 			while (graph[k][l] == INT_MAX) l++;
@@ -162,11 +161,6 @@ void Dijkstra::dijkstraList(int startV, GraphList *graphList)
 				cout << stack[--stackPos] << " ";
 			cout << "\n";
 		}
-		/*for (j = i; j > -1; j = predecessors[j])
-			stack[stackPos++] = j;
-		while (stackPos != 0)
-			cout << stack[--stackPos] << " ";
-		cout << "\n";*/
 	}
 
 	delete[] travelCosts, predecessors, qs, stack;

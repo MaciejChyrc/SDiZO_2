@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <stdlib.h>
+#include <conio.h>
 #include <vector>
 #include <queue>
 #include "MinorStructs.h"
@@ -13,8 +14,9 @@
 using namespace std;
 
 void readTextFile (string filepath, vector<Edge> &parEdges, GraphList *graphLU, GraphList *graphLD, GraphMatrix *graphMU, GraphMatrix *graphMD);
+double averageOperationTime (const vector<double> vectorOfTimes);
 
-int main ()
+/*int main ()
 {
 	GraphList *graphL = new GraphList();
 	graphL->createRandomGraph(100, 50);
@@ -40,6 +42,47 @@ int main ()
 	prim->primMatrix(50, graphM);
 	delete graphL, graphM, dijkstra, prim;
 	system("PAUSE");
+}*/
+int main ()
+{
+	vector<double> dijkstraListTimes, dijkstraMatrixTimes, primListTimes, primMatrixTimes;
+	GraphList *graphLU = new GraphList (), *graphLD = new GraphList ();
+	GraphMatrix *graphMU = new GraphMatrix (), *graphMD = new GraphMatrix ();
+	string filepath = "";
+	char menuKey = 0;
+	int cinValue = 0;
+
+	do
+	{
+		cout << "\n---------------GLOWNE MENU---------------\n"
+			<< "1. Wczytaj graf z pliku.\n"
+			<< "2. Wyswietl graf macierzowo i listowo.\n"
+			<< "3. Algorytm Prima.\n"
+			<< "4. Algorytm Dijkstry.\n"
+			<< "5. Zautomatyzowane testy czasowe.\n"
+			<< "6. Zresetuj grafy.\n"
+			<< "0. Wyjdz z programu.\n"
+			<< "Wcisnij przycisk...\n";
+		menuKey = _getch();
+		switch (menuKey)
+		{
+		case '1':
+			break;
+		case '2':
+			break;
+		case '3':
+			break;
+		case '4':
+			break;
+		case '5':
+			break;
+		case '6':
+			break;
+		}
+	} while (menuKey != '0');
+
+	delete graphLU, graphLD, graphMU, graphMD;
+	return 0;
 }
 
 void readTextFile (string filepath, vector<Edge> &parEdges, GraphList *graphLU, GraphList *graphLD, GraphMatrix *graphMU, GraphMatrix *graphMD)
@@ -80,4 +123,16 @@ void readTextFile (string filepath, vector<Edge> &parEdges, GraphList *graphLU, 
 		}
 	}
 	else cout << "Blad otwarcia pliku.\n";
+}
+
+double averageOperationTime (const vector<double> vectorOfTimes)
+{
+	double averageTime = 0;
+	for (int i = 0; i < vectorOfTimes.size(); i++)
+	{
+		averageTime += vectorOfTimes[i];
+	}
+	averageTime = averageTime / vectorOfTimes.size();
+
+	return averageTime;
 }

@@ -1,7 +1,9 @@
 #include "Dijkstra.h"
 #include <iostream>
+//#include <vector>
 #include "windows.h"
 
+using namespace std;
 
 Dijkstra::Dijkstra()
 {
@@ -13,8 +15,9 @@ Dijkstra::~Dijkstra()
 	
 }
 
-void Dijkstra::dijkstraMatrix(int startV, GraphMatrix *graphMatrix)
+void Dijkstra::dijkstraMatrix(int startV, GraphMatrix *graphMatrix, vector<double> vectorOfTimes)
 {
+	long long int frequency, timeStart, timeElapsed;
 	int** graph = graphMatrix->matrix;
 	int verticesNumber = graphMatrix->getVerticesNumber();
 	bool* qs = new bool[verticesNumber];
@@ -22,6 +25,9 @@ void Dijkstra::dijkstraMatrix(int startV, GraphMatrix *graphMatrix)
 	int* predecessors = new int[verticesNumber];
 	int* stack = new int[verticesNumber];
 	int i, j, k, stackPos = 0;
+
+	QueryPerformanceFrequency(reinterpret_cast<LARGE_INTEGER*>(&frequency));
+	timeStart = read_QPC();
 
 	for (i = 0; i < verticesNumber; i++)
 	{
@@ -53,11 +59,13 @@ void Dijkstra::dijkstraMatrix(int startV, GraphMatrix *graphMatrix)
 		}
 	}
 
+	timeElapsed = read_QPC() - timeStart;
+	vectorOfTimes.push_back(static_cast<double>(timeElapsed) / static_cast<double>(frequency) * 1000000.0);
+
 	cout << "Algorytm Dijkstry macierzowo:\n";
 	cout << "Startowy wierzcholek: " << startV << "\n";
 	for (i = 0; i < verticesNumber; i++)
 	{		
-		Sleep(50);
 		cout << "End Dist Path\n";
 		if (i >= 10 && travelCosts[i] >= 10)
 			cout << i << " | " << travelCosts[i] << " | ";
@@ -77,8 +85,9 @@ void Dijkstra::dijkstraMatrix(int startV, GraphMatrix *graphMatrix)
 	delete[] travelCosts, predecessors, qs, stack;
 }
 
-void Dijkstra::dijkstraList(int startV, GraphList *graphList)
+void Dijkstra::dijkstraList(int startV, GraphList *graphList, vector<double> vectorOfTimes)
 {
+	long long int frequency, timeStart, timeElapsed;
 	ListElement** graph = graphList->adjList;
 	ListElement* graphPtr = new ListElement;
 	int verticesNumber = graphList->getVerticesNumber();
@@ -87,6 +96,9 @@ void Dijkstra::dijkstraList(int startV, GraphList *graphList)
 	int* predecessors = new int[verticesNumber];
 	int* stack = new int[verticesNumber];
 	int i, j, k, stackPos = 0;
+
+	QueryPerformanceFrequency(reinterpret_cast<LARGE_INTEGER*>(&frequency));
+	timeStart = read_QPC();
 
 	for (i = 0; i < verticesNumber; i++)
 	{
@@ -117,11 +129,13 @@ void Dijkstra::dijkstraList(int startV, GraphList *graphList)
 		}
 	}
 
+	timeElapsed = read_QPC() - timeStart;
+	vectorOfTimes.push_back(static_cast<double>(timeElapsed) / static_cast<double>(frequency) * 1000000.0);
+
 	cout << "Algorytm Dijkstry listowo:\n";
 	cout << "Startowy wierzcholek: " << startV << "\n";
 	for (i = 0; i < verticesNumber; i++)
 	{
-		Sleep(50);
 		cout << "End Dist Path\n";
 		if (travelCosts[i] == INT_MAX)
 			cout << i << " | " << "Brak polaczenia do " << i << " wierzcholka.\n";
@@ -165,4 +179,13 @@ void Dijkstra::dijkstraList(int startV, GraphList *graphList)
 
 	delete[] travelCosts, predecessors, qs, stack;
 	delete graphPtr;
+}
+
+long long int Dijkstra::read_QPC()
+{
+	LARGE_INTEGER count;
+	DWORD_PTR oldmask = SetThreadAffinityMask(GetCurrentThread(), 0);
+	QueryPerformanceCounter(&count);
+	SetThreadAffinityMask(GetCurrentThread(), oldmask);
+	return static_cast<long long int>(count.QuadPart);
 }

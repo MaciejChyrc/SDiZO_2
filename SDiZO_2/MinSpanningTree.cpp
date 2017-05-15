@@ -1,6 +1,5 @@
 #include "MinSpanningTree.h"
 #include <iostream>
-#include "windows.h"
 #include <iomanip>
 
 using namespace std;
@@ -104,13 +103,11 @@ void MinSpanningTree::printAdjacencyList()
 	for (int i = 0; i < verticesNumber; i++)
 	{
 		cout << i << ": ";
-		Sleep(50);
 		ptr = adjList[i];
 		while (ptr != nullptr)
 		{
 			cout << "(" << ptr->weight << "|" << ptr->destVertexId << ") ";
 			ptr = ptr->next;
-			Sleep(50);
 		}
 		cout << "\n";
 	}

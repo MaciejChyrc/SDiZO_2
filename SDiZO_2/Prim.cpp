@@ -5,6 +5,7 @@
 #include "GraphMatrix.h"
 #include "MinSpanningTree.h"
 #include <iostream>
+#include "windows.h"
 
 using namespace std;
 
@@ -18,8 +19,9 @@ Prim::~Prim()
 	
 }
 //sprawdzenie iteratorow trzeba zrobic
-void Prim::primMatrix(int startV, GraphMatrix * graphMatrix)
+void Prim::primMatrix(int startV, GraphMatrix * graphMatrix, vector<double> vectorOfTimes)
 {
+	long long int frequency, timeStart, timeElapsed;
 	int** graph = graphMatrix->matrix;
 	int verticesNumber = graphMatrix->getVerticesNumber();
 	bool* visited = new bool[verticesNumber];
@@ -28,6 +30,9 @@ void Prim::primMatrix(int startV, GraphMatrix * graphMatrix)
 	MyQueue q;
 	Edge edge;
 	int i, x;
+
+	QueryPerformanceFrequency(reinterpret_cast<LARGE_INTEGER*>(&frequency));
+	timeStart = read_QPC();
 
 	for (i = 0; i < verticesNumber; i++)
 	{
@@ -59,6 +64,9 @@ void Prim::primMatrix(int startV, GraphMatrix * graphMatrix)
 		visited[edge.destVertexId] = true;
 		x = edge.destVertexId;
 	}
+	
+	timeElapsed = read_QPC() - timeStart;
+	vectorOfTimes.push_back(static_cast<double>(timeElapsed) / static_cast<double>(frequency) * 1000000.0);
 
 	mst.createTreeFromListOfEdges(verticesNumber);
 	cout << "Minimalne drzewo rozpinajace algorytmem Prima\nwykonane na grafie jako macierzy:\n";
@@ -68,8 +76,9 @@ void Prim::primMatrix(int startV, GraphMatrix * graphMatrix)
 	delete[] visited;
 }
 //chyba dziala
-void Prim::primList(int startV, GraphList * graphList)
+void Prim::primList(int startV, GraphList * graphList, vector<double> vectorOfTimes)
 {
+	long long int frequency, timeStart, timeElapsed;
 	ListElement** graph = graphList->adjList;
 	ListElement* graphPtr = new ListElement;
 	int verticesNumber = graphList->getVerticesNumber();
@@ -79,6 +88,9 @@ void Prim::primList(int startV, GraphList * graphList)
 	MyQueue q;
 	Edge edge;
 	int i, x;
+
+	QueryPerformanceFrequency(reinterpret_cast<LARGE_INTEGER*>(&frequency));
+	timeStart = read_QPC();
 
 	for (i = 0; i < verticesNumber; i++)
 	{
@@ -111,6 +123,9 @@ void Prim::primList(int startV, GraphList * graphList)
 		x = edge.destVertexId;
 	}
 
+	timeElapsed = read_QPC() - timeStart;
+	vectorOfTimes.push_back(static_cast<double>(timeElapsed) / static_cast<double>(frequency) * 1000000.0);
+
 	mst.createTreeFromListOfEdges(verticesNumber);
 	cout << "Minimalne drzewo rozpinajace algorytmem Prima\nwykonane na grafie jako tablicy list:\n";
 	//mst.printAdjacencyList();
@@ -118,4 +133,13 @@ void Prim::primList(int startV, GraphList * graphList)
 
 	delete[] visited;
 	delete graphPtr;
+}
+
+long long int Prim::read_QPC()
+{
+	LARGE_INTEGER count;
+	DWORD_PTR oldmask = SetThreadAffinityMask(GetCurrentThread(), 0);
+	QueryPerformanceCounter(&count);
+	SetThreadAffinityMask(GetCurrentThread(), oldmask);
+	return static_cast<long long int>(count.QuadPart);
 }

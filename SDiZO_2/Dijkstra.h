@@ -4,9 +4,11 @@
 
 class Dijkstra
 {
+private:
+	static long long int read_QPC();
 public:
 	Dijkstra ();
 	~Dijkstra ();
-	void dijkstraMatrix (int startV, GraphMatrix *graphMatrix);
-	void dijkstraList (int startV, GraphList *graphList);
+	static void dijkstraMatrix (int startV, GraphMatrix *graphMatrix, vector<double> vectorOfTimes);
+	static void dijkstraList (int startV, GraphList *graphList, vector<double> vectorOfTimes);
 };

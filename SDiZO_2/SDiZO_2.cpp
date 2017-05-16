@@ -15,6 +15,9 @@ using namespace std;
 
 void readTextFile (string filepath, vector<Edge> &parEdges, GraphList *graphLU, GraphList *graphLD, GraphMatrix *graphMU, GraphMatrix *graphMD);
 double averageOperationTime (const vector<double> vectorOfTimes);
+void graphListTests (GraphList *graphL, vector<double> &primTimes, vector<double> &dijkstraTimes);
+void graphMatrixTests (GraphMatrix *graphM, vector<double> &primTimes, vector<double> &dijkstraTimes);
+void saveTimesToTextFile (double avgPrim, double avgDijkstra, string size, string density);
 
 /*int main ()
 {
@@ -48,8 +51,9 @@ int main ()
 	vector<double> dijkstraListTimes, dijkstraMatrixTimes, primListTimes, primMatrixTimes;
 	GraphList *graphLU = new GraphList (), *graphLD = new GraphList ();
 	GraphMatrix *graphMU = new GraphMatrix (), *graphMD = new GraphMatrix ();
+	vector<Edge> vectorOfEdges;
 	string filepath = "";
-	char menuKey = 0;
+	char menuKey = 0, menuKeySecondary = 0;
 	int cinValue = 0;
 
 	do
@@ -67,16 +71,106 @@ int main ()
 		switch (menuKey)
 		{
 		case '1':
+			system("cls");
+			cout << "Podaj sciezke wczytywanego pliku\n"
+				<< "Na przyklad: C:\\\\Users\\\\User\\\\Documents\\\\textfile.txt\n"
+				<< "Pamietaj o podwojnych backslashach jesli podajesz pelna sciezke!\n";
+			cin >> filepath;
+			readTextFile(filepath, vectorOfEdges, graphLU, graphLD, graphMU, graphMD);
+			cout << "Zapisano grafy z pliku tekstowego.\n";
 			break;
 		case '2':
+			system("cls");
+			graphLU->print();
+			graphMU->print();
 			break;
 		case '3':
+			system("cls");
+			cout << "\n-------------ALGORYTM PRIMA--------------\n"
+				<< "1. Wyznacz minimalne drzewo rozpinajace grafu\n   w reprezentacji listowej.\n"
+				<< "2. Wyznacz minimalne drzewo rozpinajace grafu\n   w reprezentacji macierzowej.\n"
+				<< "9. Wroc do glownego menu.\n";
+			menuKey = _getch();
+			switch (menuKey)
+			{
+			case '1':
+				break;
+			case '2':
+				break;
+			case '0':
+				menuKey = '9';
+				break;
+			default:
+				break;
+			}
 			break;
 		case '4':
+			system("cls");
+			cout << "\n------------ALGORYTM DIJKSTRY------------\n"
+				<< "1. Wyznacz najkrotsze sciezki w grafie\n   w reprezentacji listowej.\n"
+				<< "2. Wyznacz najkrotsze sciezki w grafie\n   w reprezentacji macierzowej.\n"
+				<< "9. Wroc do glownego menu.\n";
+			menuKey = _getch();
+			switch (menuKey)
+			{
+			case '1':
+				break;
+			case '2':
+				break;
+			case '0':
+				menuKey = '9';
+				break;
+			default:
+				break;
+			}
 			break;
 		case '5':
+			system("cls");
+			cout << "\n---------------TRYB TESTOWY--------------\n"
+				<< "1. Przeprowadz testy dla reprezentacji listowej.\n"
+				<< "2. Przeprowadz testy dla reprezentacji macierzowej.\n"
+				<< "9. Wroc do glownego menu.\n";
+			menuKey = _getch();
+			switch (menuKey)
+			{
+			case '1':
+				do
+				{
+					cout << "Na pewno chcesz przeprowadzic testy?\nMoze to chwilke zajac. (y/n)\n";
+					menuKeySecondary = _getch();
+					if (menuKeySecondary == 'y' || menuKeySecondary == 'Y')
+					{
+						graphListTests(graphLU, primListTimes, dijkstraListTimes);
+					}
+				} while (menuKeySecondary != 'y' && menuKeySecondary != 'Y' && menuKeySecondary != 'n' && menuKeySecondary != 'N');
+				break;
+			case '2':
+				do
+				{
+					cout << "Na pewno chcesz przeprowadzic testy?\nMoze to chwilke zajac. (y/n)\n";
+					menuKeySecondary = _getch();
+					if (menuKeySecondary == 'y' || menuKeySecondary == 'Y')
+					{
+						graphMatrixTests(graphMU, primMatrixTimes, dijkstraMatrixTimes);
+					}
+				} while (menuKeySecondary != 'y' && menuKeySecondary != 'Y' && menuKeySecondary != 'n' && menuKeySecondary != 'N');
+				break;
+			case '0':
+				menuKey = '9';
+				break;
+			default:
+				break;
+			}
 			break;
 		case '6':
+			delete graphLU, graphLD, graphMU, graphMD;
+			graphLU = new GraphList ();
+			graphLD = new GraphList ();
+			graphMU = new GraphMatrix ();
+			graphMD = new GraphMatrix ();
+			cout << "Zresetowano grafy.\n";
+			break;
+		default:
 			break;
 		}
 	} while (menuKey != '0');
@@ -135,4 +229,197 @@ double averageOperationTime (const vector<double> vectorOfTimes)
 	averageTime = averageTime / vectorOfTimes.size();
 
 	return averageTime;
+}
+
+void graphListTests (GraphList *graphL, vector<double> &primTimes, vector<double> &dijkstraTimes)
+{
+	int graphVerticesNumber = 60, graphDensity = 25;
+	
+	while (graphVerticesNumber <= 140)
+	{
+		delete graphL;
+		graphL = new GraphList ();
+		graphL->createRandomGraph(graphVerticesNumber, graphDensity);
+
+		for (int i = 0; i < 100; i++)
+		{
+			cout << "Testy algorytmu Prima.\n";
+			Prim::primList(0, graphL, primTimes);
+			cout << "Testy algorytmu Dijkstry.\n";
+			Dijkstra::dijkstraList(0, graphL, dijkstraTimes);
+		}
+		saveTimesToTextFile(averageOperationTime(primTimes), averageOperationTime(dijkstraTimes), std::to_string(graphVerticesNumber), std::to_string(graphDensity));
+		primTimes.clear();
+		dijkstraTimes.clear();
+		graphVerticesNumber += 20;
+	}
+	graphVerticesNumber = 60, graphDensity = 50;
+
+	while (graphVerticesNumber <= 140)
+	{
+		delete graphL;
+		graphL = new GraphList ();
+		graphL->createRandomGraph(graphVerticesNumber, graphDensity);
+
+		for (int i = 0; i < 100; i++)
+		{
+			cout << "Testy algorytmu Prima.\n";
+			Prim::primList(0, graphL, primTimes);
+			cout << "Testy algorytmu Dijkstry.\n";
+			Dijkstra::dijkstraList(0, graphL, dijkstraTimes);
+		}
+		saveTimesToTextFile(averageOperationTime(primTimes), averageOperationTime(dijkstraTimes), std::to_string(graphVerticesNumber), std::to_string(graphDensity));
+		primTimes.clear();
+		dijkstraTimes.clear();
+		graphVerticesNumber += 20;
+	}
+	graphVerticesNumber = 60, graphDensity = 75;
+
+	while (graphVerticesNumber <= 140)
+	{
+		delete graphL;
+		graphL = new GraphList ();
+		graphL->createRandomGraph(graphVerticesNumber, graphDensity);
+
+		for (int i = 0; i < 100; i++)
+		{
+			cout << "Testy algorytmu Prima.\n";
+			Prim::primList(0, graphL, primTimes);
+			cout << "Testy algorytmu Dijkstry.\n";
+			Dijkstra::dijkstraList(0, graphL, dijkstraTimes);
+		}
+		saveTimesToTextFile(averageOperationTime(primTimes), averageOperationTime(dijkstraTimes), std::to_string(graphVerticesNumber), std::to_string(graphDensity));
+		primTimes.clear();
+		dijkstraTimes.clear();
+		graphVerticesNumber += 20;
+	}
+	graphVerticesNumber = 60, graphDensity = 99;
+
+	while (graphVerticesNumber <= 140)
+	{
+		delete graphL;
+		graphL = new GraphList ();
+		graphL->createRandomGraph(graphVerticesNumber, graphDensity);
+
+		for (int i = 0; i < 100; i++)
+		{
+			cout << "Testy algorytmu Prima.\n";
+			Prim::primList(0, graphL, primTimes);
+			cout << "Testy algorytmu Dijkstry.\n";
+			Dijkstra::dijkstraList(0, graphL, dijkstraTimes);
+		}
+		saveTimesToTextFile(averageOperationTime(primTimes), averageOperationTime(dijkstraTimes), std::to_string(graphVerticesNumber), std::to_string(graphDensity));
+		primTimes.clear();
+		dijkstraTimes.clear();
+		graphVerticesNumber += 20;
+	}
+	cout << "Zakonczono test.\n";
+}
+
+void graphMatrixTests (GraphMatrix *graphM, vector<double> &primTimes, vector<double> &dijkstraTimes)
+{
+	int graphVerticesNumber = 60, graphDensity = 25;
+
+	while (graphVerticesNumber <= 140)
+	{
+		delete graphM;
+		graphM = new GraphMatrix ();
+		graphM->createRandomGraph(graphVerticesNumber, graphDensity);
+
+		for (int i = 0; i < 100; i++)
+		{
+			cout << "Testy algorytmu Prima.\n";
+			Prim::primMatrix(0, graphM, primTimes);
+			cout << "Testy algorytmu Dijkstry.\n";
+			Dijkstra::dijkstraMatrix(0, graphM, dijkstraTimes);
+		}
+		saveTimesToTextFile(averageOperationTime(primTimes), averageOperationTime(dijkstraTimes), std::to_string(graphVerticesNumber), std::to_string(graphDensity));
+		primTimes.clear();
+		dijkstraTimes.clear();
+		graphVerticesNumber += 20;
+	}
+	graphVerticesNumber = 60, graphDensity = 50;
+
+	while (graphVerticesNumber <= 140)
+	{
+		delete graphM;
+		graphM = new GraphMatrix ();
+		graphM->createRandomGraph(graphVerticesNumber, graphDensity);
+
+		for (int i = 0; i < 100; i++)
+		{
+			cout << "Testy algorytmu Prima.\n";
+			Prim::primMatrix(0, graphM, primTimes);
+			cout << "Testy algorytmu Dijkstry.\n";
+			Dijkstra::dijkstraMatrix(0, graphM, dijkstraTimes);
+		}
+		saveTimesToTextFile(averageOperationTime(primTimes), averageOperationTime(dijkstraTimes), std::to_string(graphVerticesNumber), std::to_string(graphDensity));
+		primTimes.clear();
+		dijkstraTimes.clear();
+		graphVerticesNumber += 20;
+	}
+	graphVerticesNumber = 60, graphDensity = 75;
+
+	while (graphVerticesNumber <= 140)
+	{
+		delete graphM;
+		graphM = new GraphMatrix ();
+		graphM->createRandomGraph(graphVerticesNumber, graphDensity);
+
+		for (int i = 0; i < 100; i++)
+		{
+			cout << "Testy algorytmu Prima.\n";
+			Prim::primMatrix(0, graphM, primTimes);
+			cout << "Testy algorytmu Dijkstry.\n";
+			Dijkstra::dijkstraMatrix(0, graphM, dijkstraTimes);
+		}
+		saveTimesToTextFile(averageOperationTime(primTimes), averageOperationTime(dijkstraTimes), std::to_string(graphVerticesNumber), std::to_string(graphDensity));
+		primTimes.clear();
+		dijkstraTimes.clear();
+		graphVerticesNumber += 20;
+	}
+	graphVerticesNumber = 60, graphDensity = 99;
+
+	while (graphVerticesNumber <= 140)
+	{
+		delete graphM;
+		graphM = new GraphMatrix ();
+		graphM->createRandomGraph(graphVerticesNumber, graphDensity);
+
+		for (int i = 0; i < 100; i++)
+		{
+			cout << "Testy algorytmu Prima.\n";
+			Prim::primMatrix(0, graphM, primTimes);
+			cout << "Testy algorytmu Dijkstry.\n";
+			Dijkstra::dijkstraMatrix(0, graphM, dijkstraTimes);
+		}
+		saveTimesToTextFile(averageOperationTime(primTimes), averageOperationTime(dijkstraTimes), std::to_string(graphVerticesNumber), std::to_string(graphDensity));
+		primTimes.clear();
+		dijkstraTimes.clear();
+		graphVerticesNumber += 20;
+	}
+	cout << "Zakonczono test.\n";
+}
+
+void saveTimesToTextFile (double avgPrim, double avgDijkstra, string size, string density)
+{
+	string graphSizeAndDensity = size + "_" + density;
+	//cout << "Podaj rozmiar grafu i gestosc jako nazwe pliku (na przyklad: 100_50): \n";
+	//cin >> graphSizeAndDensity;
+
+	std::ofstream file;
+	file.open("c:\\users\\szatan\\desktop\\graf" + graphSizeAndDensity + ".txt", std::ios::out);
+
+	if (file.is_open())
+	{
+		file << "Prim, Dijkstra\n";
+		if (file.fail()) std::cerr << "Blad zapisu.\n";
+		else
+		{
+			file << avgPrim << ", " << avgDijkstra;
+			if (file.fail()) std::cerr << "Blad zapisu.\n";
+		}
+		file.close();
+	}
+	else std::cerr << "Blad otwarcia pliku.\n";
 }

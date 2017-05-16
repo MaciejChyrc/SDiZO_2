@@ -19,7 +19,7 @@ Prim::~Prim()
 	
 }
 //sprawdzenie iteratorow trzeba zrobic
-void Prim::primMatrix(int startV, GraphMatrix * graphMatrix, vector<double> vectorOfTimes)
+void Prim::primMatrix(int startV, GraphMatrix * graphMatrix, vector<double> &vectorOfTimes)
 {
 	long long int frequency, timeStart, timeElapsed;
 	int** graph = graphMatrix->matrix;
@@ -66,7 +66,7 @@ void Prim::primMatrix(int startV, GraphMatrix * graphMatrix, vector<double> vect
 	}
 	
 	timeElapsed = read_QPC() - timeStart;
-	vectorOfTimes.push_back(static_cast<double>(timeElapsed) / static_cast<double>(frequency) * 1000000.0);
+	vectorOfTimes.push_back(static_cast<double>(timeElapsed) / static_cast<double>(frequency) * 1000.0);
 
 	mst.createTreeFromListOfEdges(verticesNumber);
 	cout << "Minimalne drzewo rozpinajace algorytmem Prima\nwykonane na grafie jako macierzy:\n";
@@ -76,7 +76,7 @@ void Prim::primMatrix(int startV, GraphMatrix * graphMatrix, vector<double> vect
 	delete[] visited;
 }
 //chyba dziala
-void Prim::primList(int startV, GraphList * graphList, vector<double> vectorOfTimes)
+void Prim::primList(int startV, GraphList * graphList, vector<double> &vectorOfTimes)
 {
 	long long int frequency, timeStart, timeElapsed;
 	ListElement** graph = graphList->adjList;
@@ -124,7 +124,7 @@ void Prim::primList(int startV, GraphList * graphList, vector<double> vectorOfTi
 	}
 
 	timeElapsed = read_QPC() - timeStart;
-	vectorOfTimes.push_back(static_cast<double>(timeElapsed) / static_cast<double>(frequency) * 1000000.0);
+	vectorOfTimes.push_back(static_cast<double>(timeElapsed) / static_cast<double>(frequency) * 1000.0);
 
 	mst.createTreeFromListOfEdges(verticesNumber);
 	cout << "Minimalne drzewo rozpinajace algorytmem Prima\nwykonane na grafie jako tablicy list:\n";

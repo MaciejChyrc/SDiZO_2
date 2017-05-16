@@ -15,7 +15,7 @@ Dijkstra::~Dijkstra()
 	
 }
 
-void Dijkstra::dijkstraMatrix(int startV, GraphMatrix *graphMatrix, vector<double> vectorOfTimes)
+void Dijkstra::dijkstraMatrix(int startV, GraphMatrix *graphMatrix, vector<double> &vectorOfTimes)
 {
 	long long int frequency, timeStart, timeElapsed;
 	int** graph = graphMatrix->matrix;
@@ -60,7 +60,7 @@ void Dijkstra::dijkstraMatrix(int startV, GraphMatrix *graphMatrix, vector<doubl
 	}
 
 	timeElapsed = read_QPC() - timeStart;
-	vectorOfTimes.push_back(static_cast<double>(timeElapsed) / static_cast<double>(frequency) * 1000000.0);
+	vectorOfTimes.push_back(static_cast<double>(timeElapsed) / static_cast<double>(frequency) * 1000.0);
 
 	cout << "Algorytm Dijkstry macierzowo:\n";
 	cout << "Startowy wierzcholek: " << startV << "\n";
@@ -85,7 +85,7 @@ void Dijkstra::dijkstraMatrix(int startV, GraphMatrix *graphMatrix, vector<doubl
 	delete[] travelCosts, predecessors, qs, stack;
 }
 
-void Dijkstra::dijkstraList(int startV, GraphList *graphList, vector<double> vectorOfTimes)
+void Dijkstra::dijkstraList(int startV, GraphList *graphList, vector<double> &vectorOfTimes)
 {
 	long long int frequency, timeStart, timeElapsed;
 	ListElement** graph = graphList->adjList;
@@ -130,7 +130,7 @@ void Dijkstra::dijkstraList(int startV, GraphList *graphList, vector<double> vec
 	}
 
 	timeElapsed = read_QPC() - timeStart;
-	vectorOfTimes.push_back(static_cast<double>(timeElapsed) / static_cast<double>(frequency) * 1000000.0);
+	vectorOfTimes.push_back(static_cast<double>(timeElapsed) / static_cast<double>(frequency) * 1000.0);
 
 	cout << "Algorytm Dijkstry listowo:\n";
 	cout << "Startowy wierzcholek: " << startV << "\n";

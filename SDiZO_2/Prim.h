@@ -10,6 +10,6 @@ private:
 public:
 	Prim();
 	~Prim();
-	static void primMatrix (int startV, GraphMatrix *graphMatrix, vector<double> vectorOfTimes);
-	static void primList (int startV, GraphList *graphList, vector<double> vectorOfTimes);
+	static void primMatrix (int startV, GraphMatrix *graphMatrix, vector<double> &vectorOfTimes);
+	static void primList (int startV, GraphList *graphList, vector<double> &vectorOfTimes);
 };

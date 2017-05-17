@@ -1,5 +1,6 @@
 #pragma once
-
+///<note>Pomniejsze struktury: krawedz(waga ,v poczatkowy, v koncowy),
+///<note>krawedz do listy sasiadow (waga, v koncowy, wskaznik na nastepny element)
 struct Edge
 {
 	int weight, fromVertexId, destVertexId;

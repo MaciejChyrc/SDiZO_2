@@ -1,3 +1,8 @@
+/*
+*Autor: Maciej Chyrc
+*Struktury danych i zlozonosc obliczeniowa - projekt nr 2
+*Termin oddania: 18.05.2017
+*/
 #include <iostream>
 #include <fstream>
 #include <stdlib.h>
@@ -19,33 +24,7 @@ void graphListTests (GraphList *graphL, vector<double> &primTimes, vector<double
 void graphMatrixTests (GraphMatrix *graphM, vector<double> &primTimes, vector<double> &dijkstraTimes);
 void saveTimesToTextFile (double avgPrim, double avgDijkstra, string size, string density);
 
-/*int main ()
-{
-	GraphList *graphL = new GraphList();
-	graphL->createRandomGraph(100, 50);
-	cout << "Listowo:\n";
-	for (int i = 0; i < graphL->listOfEdges.size(); i++)
-	{
-		cout << "Krawedz " << i << ": " << graphL->listOfEdges[i].weight << " " << graphL->listOfEdges[i].fromVertexId << " " << graphL->listOfEdges[i].destVertexId << "\n";
-	}
-	graphL->print();
-	GraphMatrix *graphM = new GraphMatrix();
-	graphM->createRandomGraph(100, 50);
-	cout << "Macierzowo:\n";
-	for (int i = 0; i < graphM->listOfEdges.size(); i++)
-	{
-		cout << "Krawedz " << i << ": " << graphM->listOfEdges[i].weight << " " << graphM->listOfEdges[i].fromVertexId << " " << graphM->listOfEdges[i].destVertexId << "\n";
-	}
-	graphM->print();
-	Dijkstra* dijkstra = new Dijkstra ();
-	dijkstra->dijkstraList(2, graphL);
-	dijkstra->dijkstraMatrix(3, graphM);
-	Prim* prim = new Prim ();
-	prim->primList(4, graphL);
-	prim->primMatrix(50, graphM);
-	delete graphL, graphM, dijkstra, prim;
-	system("PAUSE");
-}*/
+//-----------------------------MAIN--------------------------------
 int main ()
 {
 	vector<double> dijkstraListTimes, dijkstraMatrixTimes, primListTimes, primMatrixTimes;
@@ -94,8 +73,10 @@ int main ()
 			switch (menuKey)
 			{
 			case '1':
+				Prim::primList(graphLU->getStartVertex(), graphLU, primListTimes);
 				break;
 			case '2':
+				Prim::primMatrix(graphMU->getStartVertex(), graphMU, primMatrixTimes);
 				break;
 			case '0':
 				menuKey = '9';
@@ -114,8 +95,10 @@ int main ()
 			switch (menuKey)
 			{
 			case '1':
+				Dijkstra::dijkstraList(graphLD->getStartVertex(), graphLD, dijkstraListTimes);
 				break;
 			case '2':
+				Dijkstra::dijkstraMatrix(graphMD->getStartVertex(), graphMD, dijkstraMatrixTimes);
 				break;
 			case '0':
 				menuKey = '9';
@@ -178,7 +161,7 @@ int main ()
 	delete graphLU, graphLD, graphMU, graphMD;
 	return 0;
 }
-
+///<note>odczyt danych z pliku tekstowego i zainicjalizowanie nimi grafow
 void readTextFile (string filepath, vector<Edge> &parEdges, GraphList *graphLU, GraphList *graphLD, GraphMatrix *graphMU, GraphMatrix *graphMD)
 {
 	ifstream file;
@@ -218,7 +201,7 @@ void readTextFile (string filepath, vector<Edge> &parEdges, GraphList *graphLU, 
 	}
 	else cout << "Blad otwarcia pliku.\n";
 }
-
+///<note>wyciagniecie sredniego czasu ze wszystkich zmierzonych
 double averageOperationTime (const vector<double> vectorOfTimes)
 {
 	double averageTime = 0;
@@ -230,7 +213,7 @@ double averageOperationTime (const vector<double> vectorOfTimes)
 
 	return averageTime;
 }
-
+///<note>testy czasowe dla reprezentacji listowej
 void graphListTests (GraphList *graphL, vector<double> &primTimes, vector<double> &dijkstraTimes)
 {
 	int graphVerticesNumber = 60, graphDensity = 25;
@@ -315,7 +298,7 @@ void graphListTests (GraphList *graphL, vector<double> &primTimes, vector<double
 	}
 	cout << "Zakonczono test.\n";
 }
-
+///<note>testy czasowe dla reprezentacji macierzowej
 void graphMatrixTests (GraphMatrix *graphM, vector<double> &primTimes, vector<double> &dijkstraTimes)
 {
 	int graphVerticesNumber = 60, graphDensity = 25;
@@ -400,15 +383,15 @@ void graphMatrixTests (GraphMatrix *graphM, vector<double> &primTimes, vector<do
 	}
 	cout << "Zakonczono test.\n";
 }
-
+///<note>zapisanie wynikow do pliku tekstowego na pulpicie uzytkownika
 void saveTimesToTextFile (double avgPrim, double avgDijkstra, string size, string density)
 {
-	string graphSizeAndDensity = size + "_" + density;
-	//cout << "Podaj rozmiar grafu i gestosc jako nazwe pliku (na przyklad: 100_50): \n";
-	//cin >> graphSizeAndDensity;
+	string graphSizeAndDensity = size + "_" + density, winUser = "";
+	cout << "Nazwe uzytkownika w windowsie";
+	cin >> winUser;
 
 	std::ofstream file;
-	file.open("c:\\users\\szatan\\desktop\\graf" + graphSizeAndDensity + ".txt", std::ios::out);
+	file.open("c:\\users\\" + winUser + "\\desktop\\graf" + graphSizeAndDensity + ".txt", std::ios::out);
 
 	if (file.is_open())
 	{

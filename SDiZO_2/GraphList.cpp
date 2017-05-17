@@ -2,7 +2,7 @@
 #include <iostream>
 #include <ctime>
 
-
+//konstruktor, destruktor i akcesory do pol klasy
 GraphList::GraphList()
 {
 	verticesNumber = 0;
@@ -97,7 +97,7 @@ void GraphList::createGraphFromListOfEdges(int v)
 		ptr->destVertexId = v2;
 		ptr->next = adjList[v1];
 		adjList[v1] = ptr;
-		//krawedz odwrotna do dodanej (tworzymy w ten sposob skierowany graf)
+		//krawedz odwrotna do dodanej (tworzymy w ten sposob nieskierowany graf)
 		ptr = new ListElement;
 		ptr->weight = w;
 		ptr->destVertexId = v1;
@@ -233,7 +233,7 @@ void GraphList::copyListOfEdges(vector<Edge> par)
 {
 	listOfEdges = par;
 }
-
+///<note>Szukanie danej krawedzi w vectorze
 bool GraphList::findEdge(Edge e)
 {
 	for (Edge edge : listOfEdges)
@@ -245,7 +245,7 @@ bool GraphList::findEdge(Edge e)
 	}
 	return false;
 }
-
+///<note>Wydruk grafu na ekran
 void GraphList::print()
 {
 	cout << "Reprezentacja listowa:\n";

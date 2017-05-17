@@ -4,6 +4,8 @@
 
 using namespace std;
 
+//konstruktory i destruktor
+
 MinSpanningTree::MinSpanningTree()
 {
 	adjList = nullptr;
@@ -36,7 +38,7 @@ MinSpanningTree::~MinSpanningTree()
 	}
 	delete[] adjList;
 }
-
+///<note>Utworzenie MST z vectora krawedzi o zadanej ilosci wierzcholkow.
 void MinSpanningTree::createTreeFromListOfEdges(int v)
 {
 	if (listOfEdges.size() > (v * (v - 1)) / 2)
@@ -85,17 +87,17 @@ void MinSpanningTree::createTreeFromListOfEdges(int v)
 		weight += ptr->weight;
 	}
 }
-
+///<note>Dodanie krawedzi do vectora.
 void MinSpanningTree::add(Edge edge)
 {
 	listOfEdges.push_back(edge);
 }
-
+//-----------------------------------------------------------------------------
 ListElement* MinSpanningTree::getAdjList(int i)
 {
 	return adjList[i];
 }
-
+///<note>Wydruk MST w postaci listowej.
 void MinSpanningTree::printAdjacencyList()
 {
 	ListElement* ptr;
@@ -113,7 +115,7 @@ void MinSpanningTree::printAdjacencyList()
 	}
 	cout << "\nWaga drzewa: " << weight << "\n";
 }
-
+///<note>Wydruk MST w postaci listy krawedzi.
 void MinSpanningTree::printListOfEdges()
 {
 	cout << "Krawedz | Waga\n";

@@ -1,7 +1,7 @@
 #include "MyQueue.h"
 #include <iostream>
 
-
+//akcesory prywatne i publiczne, konstruktor i destruktor
 int MyQueue::leftSon(int index)
 {
 	return index * 2 + 1;
@@ -38,36 +38,7 @@ Edge MyQueue::front()
 {
 	return heap[0];
 }
-
-/*void MyQueue::push(Edge edge)
-{
-	resize(heapSize + 1);
-	heap[heapSize - 1] = edge;
-	for (int i = heapSize - 1; i >= 1; i--)
-	{
-		for (int j = heapSize - 1; j >= 1; j--)
-		{
-			if (heap[i].weight < heap[i - 1].weight) swap(i, i - 1);
-		}
-	}
-}
-
-void MyQueue::pop()
-{
-	if (heapSize > 0)
-	{
-		for (int i = 0; i < heapSize - 1; i++)
-		{
-			heap[i] = heap[i + 1];
-		}
-		resize(heapSize - 1);
-	}
-	else
-	{
-		std::cout << "Nie mozna usunac elementu. Kolejka jest pusta.\n";
-	}
-}*/
-
+///<note>Dodanie krawedzi do kolejki
 void MyQueue::push(Edge edge)
 {
 	resize(heapSize + 1);
@@ -82,7 +53,7 @@ void MyQueue::push(Edge edge)
 	}
 	heap[i] = edge;
 }
-
+///<note>Usuniecie krawedzi z kolejki
 void MyQueue::pop()
 {
 	Edge edge;
@@ -115,52 +86,7 @@ void MyQueue::pop()
 		std::cout << "Kolejka jest pusta. Nie ma czego usunac.\n";
 	}
 }
-/*void MyQueue::push(Edge e)
-{
-	int i, j;
-
-	i = heapSize++;                     // i ustawiamy na koniec kopca
-	j = (i - 1) >> 1;               // Obliczamy pozycjê rodzica
-
-									// Szukamy miejsca w kopcu dla e
-
-	while (i && (heap[j].weight > e.weight))
-	{
-		heap[i] = heap[j];
-		i = j;
-		j = (i - 1) >> 1;
-	}
-
-	heap[i] = e;                    // KrawêdŸ e wstawiamy do kopca
-}
-
-// Usuwa korzeñ z kopca i odtwarza jego strukturê
-//-----------------------------------------------
-void MyQueue::pop()
-{
-	int i, j;
-	Edge e;
-
-	if (heapSize)
-	{
-		e = heap[--heapSize];
-
-		i = 0;
-		j = 1;
-
-		while (j < heapSize)
-		{
-			if ((j + 1 < heapSize) && (heap[j + 1].weight < heap[j].weight)) j++;
-			if (e.weight <= heap[j].weight) break;
-			heap[i] = heap[j];
-			i = j;
-			j = (j << 1) + 1;
-		}
-
-		heap[i] = e;
-	}
-}*/
-
+//-----------------------------------------------------------------------------
 void MyQueue::resize(int newSize)
 {
 	try
@@ -191,7 +117,7 @@ void MyQueue::resize(int newSize)
 		std::cerr << "Nie udalo sie poprawnie zaalokowac kopca.\n";
 	}
 }
-
+///<note>Wydruk zawartosci kolejki na ekran
 void MyQueue::print()
 {
 	for (int i = 0; i < heapSize; i++)

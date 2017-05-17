@@ -3,7 +3,7 @@
 #include <ctime>
 #include <iomanip>
 
-
+//konstruktor, destruktor i akcesory do pol klasy
 GraphMatrix::GraphMatrix()
 {
 	matrix = nullptr;
@@ -211,7 +211,7 @@ void GraphMatrix::copyListOfEdges(vector<Edge> par)
 {
 	listOfEdges = par;
 }
-
+///<note>Wydruk grafu na ekran
 void GraphMatrix::print()
 {
 	cout << "Reprezentacja macierzowa:\n   ";

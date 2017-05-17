@@ -1,6 +1,5 @@
 #include "Dijkstra.h"
 #include <iostream>
-//#include <vector>
 #include "windows.h"
 
 using namespace std;
@@ -14,7 +13,9 @@ Dijkstra::~Dijkstra()
 {
 	
 }
-
+///<note>Algorytm Dijkstry dla reprezentacji macierzowej. Przyjmuje dodatkowy parametr
+///<note>w postaci vectora, do ktorego zapisuje czas wykonania algorytmu.
+///<note>Metoda statyczna - nie wymaga utworzenia obiektu Dijkstra.
 void Dijkstra::dijkstraMatrix(int startV, GraphMatrix *graphMatrix, vector<double> &vectorOfTimes)
 {
 	long long int frequency, timeStart, timeElapsed;
@@ -84,7 +85,9 @@ void Dijkstra::dijkstraMatrix(int startV, GraphMatrix *graphMatrix, vector<doubl
 
 	delete[] travelCosts, predecessors, qs, stack;
 }
-
+///<note>Algorytm Dijkstry dla reprezentacji listowej. Przyjmuje dodatkowy parametr
+///<note>w postaci vectora, do ktorego zapisuje czas wykonania algorytmu.
+///<note>Metoda statyczna - nie wymaga utworzenia obiektu Dijkstra.
 void Dijkstra::dijkstraList(int startV, GraphList *graphList, vector<double> &vectorOfTimes)
 {
 	long long int frequency, timeStart, timeElapsed;

@@ -18,8 +18,10 @@ Prim::~Prim()
 {
 	
 }
-//sprawdzenie iteratorow trzeba zrobic
-void Prim::primMatrix(int startV, GraphMatrix * graphMatrix, vector<double> &vectorOfTimes)
+///<note>Algorytm Prima dla reprezentacji macierzowej. Przyjmuje dodatkowy parametr
+///<note>w postaci vectora, do ktorego zapisuje czas wykonania algorytmu.
+///<note>Metoda statyczna - nie wymaga utworzenia obiektu Prim.
+void Prim::primMatrix(int startV, GraphMatrix *graphMatrix, vector<double> &vectorOfTimes)
 {
 	long long int frequency, timeStart, timeElapsed;
 	int** graph = graphMatrix->matrix;
@@ -70,12 +72,13 @@ void Prim::primMatrix(int startV, GraphMatrix * graphMatrix, vector<double> &vec
 
 	mst.createTreeFromListOfEdges(verticesNumber);
 	cout << "Minimalne drzewo rozpinajace algorytmem Prima\nwykonane na grafie jako macierzy:\n";
-	//mst.printAdjacencyList();
 	mst.printListOfEdges();
 
 	delete[] visited;
 }
-//chyba dziala
+///<note>Algorytm Prima dla reprezentacji listowej. Przyjmuje dodatkowy parametr
+///<note>w postaci vectora, do ktorego zapisuje czas wykonania algorytmu.
+///<note>Metoda statyczna - nie wymaga utworzenia obiektu Prim.
 void Prim::primList(int startV, GraphList * graphList, vector<double> &vectorOfTimes)
 {
 	long long int frequency, timeStart, timeElapsed;
@@ -128,13 +131,12 @@ void Prim::primList(int startV, GraphList * graphList, vector<double> &vectorOfT
 
 	mst.createTreeFromListOfEdges(verticesNumber);
 	cout << "Minimalne drzewo rozpinajace algorytmem Prima\nwykonane na grafie jako tablicy list:\n";
-	//mst.printAdjacencyList();
 	mst.printListOfEdges();
 
 	delete[] visited;
 	delete graphPtr;
 }
-
+//-----------------------------------------------------------------------------
 long long int Prim::read_QPC()
 {
 	LARGE_INTEGER count;

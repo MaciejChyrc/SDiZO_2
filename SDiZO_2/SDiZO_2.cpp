@@ -64,86 +64,95 @@ int main ()
 			graphMU->print();
 			break;
 		case '3':
-			system("cls");
-			cout << "\n-------------ALGORYTM PRIMA--------------\n"
-				<< "1. Wyznacz minimalne drzewo rozpinajace grafu\n   w reprezentacji listowej.\n"
-				<< "2. Wyznacz minimalne drzewo rozpinajace grafu\n   w reprezentacji macierzowej.\n"
-				<< "9. Wroc do glownego menu.\n";
-			menuKey = _getch();
-			switch (menuKey)
+			do
 			{
-			case '1':
-				Prim::primList(graphLU->getStartVertex(), graphLU, primListTimes);
-				break;
-			case '2':
-				Prim::primMatrix(graphMU->getStartVertex(), graphMU, primMatrixTimes);
-				break;
-			case '0':
-				menuKey = '9';
-				break;
-			default:
-				break;
-			}
+				//system("cls");
+				cout << "\n-------------ALGORYTM PRIMA--------------\n"
+					<< "1. Wyznacz minimalne drzewo rozpinajace grafu\n   w reprezentacji listowej.\n"
+					<< "2. Wyznacz minimalne drzewo rozpinajace grafu\n   w reprezentacji macierzowej.\n"
+					<< "9. Wroc do glownego menu.\n";
+				menuKey = _getch();
+				switch (menuKey)
+				{
+				case '1':
+					Prim::primList(graphLU->getStartVertex(), graphLU, primListTimes);
+					break;
+				case '2':
+					Prim::primMatrix(graphMU->getStartVertex(), graphMU, primMatrixTimes);
+					break;
+				case '0':
+					menuKey = '9';
+					break;
+				default:
+					break;
+				}
+			} while (menuKey != '9');
 			break;
 		case '4':
-			system("cls");
-			cout << "\n------------ALGORYTM DIJKSTRY------------\n"
-				<< "1. Wyznacz najkrotsze sciezki w grafie\n   w reprezentacji listowej.\n"
-				<< "2. Wyznacz najkrotsze sciezki w grafie\n   w reprezentacji macierzowej.\n"
-				<< "9. Wroc do glownego menu.\n";
-			menuKey = _getch();
-			switch (menuKey)
+			do
 			{
-			case '1':
-				Dijkstra::dijkstraList(graphLD->getStartVertex(), graphLD, dijkstraListTimes);
-				break;
-			case '2':
-				Dijkstra::dijkstraMatrix(graphMD->getStartVertex(), graphMD, dijkstraMatrixTimes);
-				break;
-			case '0':
-				menuKey = '9';
-				break;
-			default:
-				break;
-			}
+				//system("cls");
+				cout << "\n------------ALGORYTM DIJKSTRY------------\n"
+					<< "1. Wyznacz najkrotsze sciezki w grafie\n   w reprezentacji listowej.\n"
+					<< "2. Wyznacz najkrotsze sciezki w grafie\n   w reprezentacji macierzowej.\n"
+					<< "9. Wroc do glownego menu.\n";
+				menuKey = _getch();
+				switch (menuKey)
+				{
+				case '1':
+					Dijkstra::dijkstraList(graphLD->getStartVertex(), graphLD, dijkstraListTimes);
+					break;
+				case '2':
+					Dijkstra::dijkstraMatrix(graphMD->getStartVertex(), graphMD, dijkstraMatrixTimes);
+					break;
+				case '0':
+					menuKey = '9';
+					break;
+				default:
+					break;
+				}
+			} while (menuKey != '9');
 			break;
 		case '5':
-			system("cls");
-			cout << "\n---------------TRYB TESTOWY--------------\n"
-				<< "1. Przeprowadz testy dla reprezentacji listowej.\n"
-				<< "2. Przeprowadz testy dla reprezentacji macierzowej.\n"
-				<< "9. Wroc do glownego menu.\n";
-			menuKey = _getch();
-			switch (menuKey)
+			do
 			{
-			case '1':
-				do
+				//system("cls");
+				cout << "\n---------------TRYB TESTOWY--------------\n"
+					<< "1. Przeprowadz testy dla reprezentacji listowej.\n"
+					<< "2. Przeprowadz testy dla reprezentacji macierzowej.\n"
+					<< "9. Wroc do glownego menu.\n";
+				menuKey = _getch();
+				switch (menuKey)
 				{
-					cout << "Na pewno chcesz przeprowadzic testy?\nMoze to chwilke zajac. (y/n)\n";
-					menuKeySecondary = _getch();
-					if (menuKeySecondary == 'y' || menuKeySecondary == 'Y')
+				case '1':
+					do
 					{
-						graphListTests(graphLU, primListTimes, dijkstraListTimes);
-					}
-				} while (menuKeySecondary != 'y' && menuKeySecondary != 'Y' && menuKeySecondary != 'n' && menuKeySecondary != 'N');
-				break;
-			case '2':
-				do
-				{
-					cout << "Na pewno chcesz przeprowadzic testy?\nMoze to chwilke zajac. (y/n)\n";
-					menuKeySecondary = _getch();
-					if (menuKeySecondary == 'y' || menuKeySecondary == 'Y')
+						cout << "Na pewno chcesz przeprowadzic testy?\nMoze to chwilke zajac. (y/n)\n";
+						menuKeySecondary = _getch();
+						if (menuKeySecondary == 'y' || menuKeySecondary == 'Y')
+						{
+							graphListTests(graphLU, primListTimes, dijkstraListTimes);
+						}
+					} while (menuKeySecondary != 'y' && menuKeySecondary != 'Y' && menuKeySecondary != 'n' && menuKeySecondary != 'N');
+					break;
+				case '2':
+					do
 					{
-						graphMatrixTests(graphMU, primMatrixTimes, dijkstraMatrixTimes);
-					}
-				} while (menuKeySecondary != 'y' && menuKeySecondary != 'Y' && menuKeySecondary != 'n' && menuKeySecondary != 'N');
-				break;
-			case '0':
-				menuKey = '9';
-				break;
-			default:
-				break;
-			}
+						cout << "Na pewno chcesz przeprowadzic testy?\nMoze to chwilke zajac. (y/n)\n";
+						menuKeySecondary = _getch();
+						if (menuKeySecondary == 'y' || menuKeySecondary == 'Y')
+						{
+							graphMatrixTests(graphMU, primMatrixTimes, dijkstraMatrixTimes);
+						}
+					} while (menuKeySecondary != 'y' && menuKeySecondary != 'Y' && menuKeySecondary != 'n' && menuKeySecondary != 'N');
+					break;
+				case '0':
+					menuKey = '9';
+					break;
+				default:
+					break;
+				}
+			} while (menuKey != '9');
 			break;
 		case '6':
 			delete graphLU, graphLD, graphMU, graphMD;
@@ -189,9 +198,9 @@ void readTextFile (string filepath, vector<Edge> &parEdges, GraphList *graphLU, 
 			graphMU->copyListOfEdges(parEdges);
 			graphMD->copyListOfEdges(parEdges);
 			graphLU->createGraphFromListOfEdges(verticesNumber);
-			graphLD->createGraphFromListOfEdges(verticesNumber);
+			graphLD->createDirectedGraphFromListOfEdges(verticesNumber);
 			graphMU->createGraphFromListOfEdges(verticesNumber);
-			graphMD->createGraphFromListOfEdges(verticesNumber);
+			graphMD->createDirectedGraphFromListOfEdges(verticesNumber);
 			graphLU->setStartVertex(startVertex);
 			graphLD->setStartVertex(startVertex);
 			graphMU->setStartVertex(startVertex);
